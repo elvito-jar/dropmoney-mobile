@@ -1,0 +1,101 @@
+import { StackNavigationProp } from '@react-navigation/stack'
+import moment from 'moment'
+import React from 'react'
+import { StyleSheet, Text, View } from 'react-native'
+import { Button } from 'react-native-elements'
+import DateTimeModalPicker from 'react-native-modal-datetime-picker'
+import AuthLayout from '../../../components/AuthLayout'
+import useTheme from '../../../hooks/useTheme'
+import { SignUpStackParamList } from '../../../types'
+
+type Props = {
+  navigation: StackNavigationProp<SignUpStackParamList, 'StepTwo'>
+}
+
+type FormInputs = {
+  adress1: string
+  state: string
+  city: string
+  zipCode: string
+}
+
+const StepTwo: React.FC<Props> = ({ navigation }) => {
+  const [loading, setLoading] = React.useState<boolean>(false)
+  const [date, setDate] = React.useState<Date>(new Date(2000, 0, 1))
+  const [show, setShow] = React.useState<boolean>(false)
+  const input1 = React.useRef(undefined!)
+  const { theme } = useTheme()
+  const handleConfirm = (date: Date) => {
+    setDate(date)
+    setShow(false)
+  }
+
+  const handleSubmit = () => {
+    setLoading(true)
+    setTimeout(() => {
+      navigation.navigate('StepThree')
+      setLoading(false)
+    }, 800)
+  }
+
+  return (
+    <AuthLayout>
+      <View style={Styles.container}>
+        <Text style={[Styles.title, { color: theme.colors?.primary }]}>Cual es tu Fecha de Nacimiento?</Text>
+        <Button
+          disabled={loading}
+          raised
+          type='outline'
+          containerStyle={Styles.dateContainerBtn}
+          buttonStyle={[Styles.dateBtn, { borderColor: theme.colors?.grey3 }]}
+          titleStyle={{ color: theme.colors?.grey1 }}
+          title={moment(date).format('DD/MM/YYYY')}
+          iconRight
+          icon={{ name: 'chevron-down', type: 'font-awesome', size: 15 }}
+          onPress={() => setShow(!show)}
+        />
+        <Button
+          loading={loading}
+          containerStyle={{ width: '100%', marginTop: 20, paddingHorizontal: 10 }}
+          onPress={handleSubmit}
+          title='Siguiente'
+        />
+        <DateTimeModalPicker
+          isVisible={show}
+          date={date}
+          mode='date'
+          minimumDate={new Date(1960, 0, 1)}
+          maximumDate={moment().subtract(5, 'y').toDate()}
+          display='spinner'
+          onConfirm={handleConfirm}
+          onCancel={() => setShow(false)}
+          headerTextIOS='Fecha de Nacimiento'
+          cancelTextIOS='Cancelar'
+          confirmTextIOS='Confirmar'
+        />
+      </View>
+    </AuthLayout>
+  )
+}
+
+const Styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingHorizontal: 20,
+    paddingTop: 30,
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: '500',
+  },
+  dateContainerBtn: {
+    width: '100%',
+    marginTop: 20,
+  },
+  dateBtn: {
+    justifyContent: 'space-between',
+    paddingHorizontal: 15,
+  },
+})
+
+export default StepTwo

@@ -37,7 +37,7 @@ function reducer(state: State, action: Actions): State {
       return { ...state, isSignout: true, userToken: null }
 
     default: {
-      return { ...state }
+      throw Error('Accion no identificada reducer useAuth.tsx')
     }
   }
 }
