@@ -56,7 +56,7 @@ const StepTwo: React.FC<Props> = ({ navigation }) => {
         />
         <Button
           loading={loading}
-          containerStyle={{ width: '100%', marginTop: 20, paddingHorizontal: 10 }}
+          containerStyle={{ width: '100%', marginTop: 20 }}
           onPress={handleSubmit}
           title='Siguiente'
         />

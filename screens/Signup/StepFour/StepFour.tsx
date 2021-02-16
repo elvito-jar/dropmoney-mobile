@@ -1,5 +1,5 @@
 import { StackNavigationProp } from '@react-navigation/stack'
-import { AsYouType } from 'libphonenumber-js/min'
+import { AsYouType, isPossibleNumber, isValidNumber } from 'libphonenumber-js'
 import React from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
@@ -19,10 +19,11 @@ type InputFields = {
 
 const StepFour: React.FC<Props> = ({ navigation }) => {
   const { theme } = useTheme()
-  const { control, handleSubmit, errors } = useForm<InputFields>()
+  const { control, handleSubmit, formState } = useForm<InputFields>({ mode: 'onSubmit' })
   const [loading, setLoading] = React.useState<boolean>(false)
   const input2 = React.useRef<Input>(undefined!)
   const Formatter = React.useRef(new AsYouType('VE'))
+  const { errors } = formState
 
   const normalizeTel = (value: string) => {
     if (value[0] === '0') return ''
@@ -32,9 +33,21 @@ const StepFour: React.FC<Props> = ({ navigation }) => {
     return value.substr(4)
   }
 
-  const onSubmit = (data: InputFields) => {
-    console.log(data)
+  const validateNumber = (number: string) => {
+    number = `+58 ${number}`
+    return (
+      (isPossibleNumber(number, 'VE') && isValidNumber(number, 'VE')) ||
+      'Debe ingresar un numero celular valido. Ej: 424 6170000'
+    )
   }
+
+  console.log(errors)
+
+  const submit = (data: InputFields) => {
+    navigation.navigate('StepFive')
+  }
+
+  const emailRegex = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/g
 
   return (
     <AuthLayout>
@@ -45,9 +58,14 @@ const StepFour: React.FC<Props> = ({ navigation }) => {
             control={control}
             name='email'
             defaultValue=''
-            rules={{ required: true, max: 11 }}
+            rules={{
+              required: { value: true, message: 'Este campo es obligatorio.' },
+              pattern: { value: emailRegex, message: 'Debe introducir un correo electronico valido.' },
+            }}
             render={({ onChange, value }) => (
               <Input
+                errorMessage={errors.email?.message}
+                errorStyle={{ marginBottom: errors.email?.message ? 10 : 0 }}
                 disabled={loading}
                 placeholder='Correo electronico'
                 autoFocus
@@ -73,13 +91,18 @@ const StepFour: React.FC<Props> = ({ navigation }) => {
               control={control}
               name='numberTel'
               defaultValue=''
-              rules={{ required: true }}
+              rules={{
+                required: { value: true, message: 'Este campo es obligatorio.' },
+                validate: {
+                  valid: validateNumber,
+                },
+              }}
               render={({ onChange, value }) => (
                 <Input
+                  errorStyle={{ display: 'none' }}
                   ref={input2}
                   disabled={loading}
                   placeholder='Numero Telefonico'
-                  autoFocus
                   maxLength={11}
                   textContentType='telephoneNumber'
                   autoCompleteType='tel'
@@ -90,16 +113,22 @@ const StepFour: React.FC<Props> = ({ navigation }) => {
                   value={value}
                   onChangeText={(value) => onChange(normalizeTel(value))}
                   returnKeyType='done'
-                  onSubmitEditing={handleSubmit(onSubmit)}
+                  onSubmitEditing={handleSubmit(submit)}
                 />
               )}
             />
+            {errors.numberTel?.message && (
+              <Text style={[Styles.errorPhone]}>{errors.numberTel?.message || ''}</Text>
+            )}
           </View>
         </View>
+        <Text style={[Styles.infoText, { color: theme.colors?.grey1 }]}>
+          Te enviaremos un correo y código de verificación al respectivo correo y número telefónico escrito aquí.
+        </Text>
         <Button
           containerStyle={{ paddingHorizontal: 10 }}
           title='Verificar Celular'
-          onPress={handleSubmit(onSubmit)}
+          onPress={handleSubmit(submit)}
         />
       </ScrollView>
     </AuthLayout>
@@ -140,6 +169,23 @@ const Styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     paddingLeft: 10,
+  },
+  errorPhone: {
+    flexBasis: '100%',
+    color: 'red',
+    padding: 5,
+    paddingBottom: 0,
+    fontSize: 12,
+    marginLeft: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 0,
+  },
+  infoText: {
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    marginBottom: 10,
+    marginTop: 5,
   },
 })
 

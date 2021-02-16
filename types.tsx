@@ -10,6 +10,8 @@ export type SignUpStackParamList = {
   StepTwo: undefined
   StepThree: undefined
   StepFour: undefined
+  UsernamePass: undefined
+  StepFive: undefined
 }
 
 export type BottomTabParamList = {

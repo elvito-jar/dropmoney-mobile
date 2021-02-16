@@ -84,7 +84,7 @@ const StepThree: React.FC<Props> = ({ navigation }) => {
                 disabled={loading}
                 textContentType='fullStreetAddress'
                 autoCompleteType='street-address'
-                placeholder='Codigo Zip'
+                placeholder='Codigo Postal'
                 clearButtonMode='while-editing'
                 inputContainerStyle={[Styles.inputInner]}
                 containerStyle={[Styles.inputContainer, { width: '50%' }]}
