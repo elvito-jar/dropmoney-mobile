@@ -5,13 +5,14 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { Button, Input } from 'react-native-elements'
 import AuthLayout from '../../../components/AuthLayout'
 import useTheme from '../../../hooks/useTheme'
+import { SignupNavigatorContext } from '../../../navigation/SignupNavigator'
 import { SignUpStackParamList } from '../../../types'
 
 type Props = {
   navigation: StackNavigationProp<SignUpStackParamList, 'StepOne'>
 }
 
-type FormInputs = {
+type InputFields = {
   lastName: string
   name: string
   cedula: string
@@ -23,10 +24,12 @@ const StepOne: React.FC<Props> = ({ navigation }) => {
   const input3 = React.useRef<Input>(undefined!)
   const [loading, setLoading] = React.useState<boolean>(false)
   const { theme } = useTheme()
-  const { control, handleSubmit, errors } = useForm<FormInputs>()
+  const { control, handleSubmit, errors } = useForm<InputFields>()
+  const state = React.useContext(SignupNavigatorContext)
 
-  const submit = (data: any) => {
+  const submit = (fields: InputFields) => {
     setLoading(true)
+    state.current = { ...state.current, ...fields }
     setTimeout(() => {
       navigation.navigate('StepTwo')
       setLoading(false)

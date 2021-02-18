@@ -6,17 +6,11 @@ import { Button } from 'react-native-elements'
 import DateTimeModalPicker from 'react-native-modal-datetime-picker'
 import AuthLayout from '../../../components/AuthLayout'
 import useTheme from '../../../hooks/useTheme'
+import { SignupNavigatorContext } from '../../../navigation/SignupNavigator'
 import { SignUpStackParamList } from '../../../types'
 
 type Props = {
   navigation: StackNavigationProp<SignUpStackParamList, 'StepTwo'>
-}
-
-type FormInputs = {
-  adress1: string
-  state: string
-  city: string
-  zipCode: string
 }
 
 const StepTwo: React.FC<Props> = ({ navigation }) => {
@@ -25,6 +19,7 @@ const StepTwo: React.FC<Props> = ({ navigation }) => {
   const [show, setShow] = React.useState<boolean>(false)
   const input1 = React.useRef(undefined!)
   const { theme } = useTheme()
+  const state = React.useContext(SignupNavigatorContext)
   const handleConfirm = (date: Date) => {
     setDate(date)
     setShow(false)
@@ -32,6 +27,7 @@ const StepTwo: React.FC<Props> = ({ navigation }) => {
 
   const handleSubmit = () => {
     setLoading(true)
+    state.current = { ...state.current, birthday: date }
     setTimeout(() => {
       navigation.navigate('StepThree')
       setLoading(false)

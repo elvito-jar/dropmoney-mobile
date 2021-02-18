@@ -10,20 +10,32 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native'
+import Toast from 'react-native-easy-toast'
 import { Button } from 'react-native-elements'
 import AuthLayout from '../../../components/AuthLayout'
 import FullScreenLoader from '../../../components/FullScreenLoader'
 import useTheme from '../../../hooks/useTheme'
+import { SignupNavigatorContext } from '../../../navigation/SignupNavigator'
 import { SignUpStackParamList } from '../../../types'
 
 type Props = {
   navigation: StackNavigationProp<SignUpStackParamList, 'StepFive'>
 }
 
+const CustomToast: React.FC<{ message: string }> = ({ message }) => (
+  <View style={[Styles.toast]}>
+    <Text style={{ color: 'white', textAlign: 'center' }}>{message}</Text>
+  </View>
+)
+
 const CODE_LENGTH = new Array(4).fill(0)
 
 const StepFive: React.FC<Props> = (props) => {
+  const toast = React.useRef<Toast | null>(undefined!)
   const [code, setCode] = React.useState<string>('')
+  const state = React.useContext(SignupNavigatorContext)
+  const [visibleLoader, setVisibleLoader] = React.useState<boolean>(false)
+  const [successLoader, setSuccessLoader] = React.useState<boolean>(false)
   const [focus, setFocus] = React.useState<boolean>(false)
   const { theme } = useTheme()
   const input = React.useRef<TextInput>(undefined!)
@@ -43,64 +55,76 @@ const StepFive: React.FC<Props> = (props) => {
     }
   }
 
+  console.log(state.current)
+
+  const showToast = () => {
+    toast.current?.show(
+      <CustomToast message='Ha ocurrido un error enviando el mensaje. Intentalo de nuevo' />,
+      3000
+    )
+  }
+
   return (
     <AuthLayout>
-      <ScrollView style={Styles.wrapper}>
-        <Text style={[Styles.title, { color: theme.colors?.primary }]}>Código de Verificación</Text>
-        <Text style={[Styles.infoText, { color: theme.colors?.grey1 }]}>
-          Asegurémonos de que sea realmente para ti. Hemos enviado un mensaje con un código de verificación al
-          número telefónico que termina en:{'\n'} <Text style={{ fontWeight: 'bold' }}>******2493</Text>
-        </Text>
-        <TouchableWithoutFeedback onPress={() => input.current.focus()}>
-          <View style={Styles.form}>
-            {CODE_LENGTH.map((v, i) => (
-              <View style={Styles.cell} key={i}>
-                <Text style={{ fontSize: 24, color: theme.colors?.primary, fontWeight: 'bold' }}>
-                  {code[i] || ''}
-                </Text>
-              </View>
-            ))}
-            <TextInput
-              onFocus={() => setFocus(true)}
-              onBlur={() => setFocus(false)}
-              autoFocus
-              onChangeText={handleChange}
-              keyboardType='numeric'
-              style={[
-                Styles.input,
-                {
-                  color: theme.colors?.primary,
-                  left: selectedIndex * 70 + 10 + selectedIndex * 14,
-                  opacity: code.length >= CODE_LENGTH.length ? 0 : 1,
-                },
-              ]}
-              value=''
-              onKeyPress={handleKeyPress}
-              ref={input}
+      <>
+        <ScrollView style={Styles.wrapper}>
+          <Text style={[Styles.title, { color: theme.colors?.primary }]}>Código de Verificación</Text>
+          <Text style={[Styles.infoText, { color: theme.colors?.grey1 }]}>
+            Asegurémonos de que sea realmente para ti. Hemos enviado un mensaje con un código de verificación al
+            número telefónico que termina en:{'\n'} <Text style={{ fontWeight: 'bold' }}>******2493</Text>
+          </Text>
+          <TouchableWithoutFeedback onPress={() => input.current.focus()}>
+            <View style={Styles.form}>
+              {CODE_LENGTH.map((v, i) => (
+                <View style={Styles.cell} key={i}>
+                  <Text style={{ fontSize: 24, color: theme.colors?.primary, fontWeight: 'bold' }}>
+                    {code[i] || ''}
+                  </Text>
+                </View>
+              ))}
+              <TextInput
+                onFocus={() => setFocus(true)}
+                onBlur={() => setFocus(false)}
+                autoFocus
+                onChangeText={handleChange}
+                keyboardType='numeric'
+                style={[
+                  Styles.input,
+                  {
+                    color: theme.colors?.primary,
+                    left: selectedIndex * 70 + 10 + selectedIndex * 14,
+                    opacity: code.length >= CODE_LENGTH.length ? 0 : 1,
+                  },
+                ]}
+                value=''
+                onKeyPress={handleKeyPress}
+                ref={input}
+              />
+            </View>
+          </TouchableWithoutFeedback>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginBottom: 10,
+              marginTop: -10,
+            }}>
+            <Text style={{ margin: 0, marginHorizontal: 0, color: theme.colors?.grey1, fontSize: 14 }}>
+              ¿No recibió el código?
+            </Text>
+            <Button
+              titleStyle={{ fontSize: 14 }}
+              type='clear'
+              title='Enviar de nuevo.'
+              onPress={() => alert('enviando de nuevo')}
             />
           </View>
-        </TouchableWithoutFeedback>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'center',
-            alignItems: 'center',
-            marginBottom: 10,
-            marginTop: -10,
-          }}>
-          <Text style={{ margin: 0, marginHorizontal: 0, color: theme.colors?.grey1, fontSize: 14 }}>
-            ¿No recibió el código?
-          </Text>
-          <Button
-            titleStyle={{ fontSize: 14 }}
-            type='clear'
-            title='Enviar de nuevo.'
-            onPress={() => alert('enviando de nuevo')}
-          />
-        </View>
-        <Button containerStyle={{ paddingHorizontal: 15 }} title='Verificar Codigo' onPress={verifyCode} />
-        <FullScreenLoader visible={true} />
-      </ScrollView>
+          <Button containerStyle={{ paddingHorizontal: 15 }} title='Verificar Codigo' onPress={showToast} />
+          <FullScreenLoader visible={visibleLoader} message='El mensaje se ha enviado' success={successLoader} />
+        </ScrollView>
+        <Toast ref={toast} positionValue={100} />
+      </>
     </AuthLayout>
   )
 }
@@ -149,6 +173,7 @@ const Styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 0,
   },
+  toast: { width: 300 },
 })
 
 export default StepFive

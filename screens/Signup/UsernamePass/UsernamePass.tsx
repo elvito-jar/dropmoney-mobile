@@ -5,6 +5,7 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { Button, Input } from 'react-native-elements'
 import AuthLayout from '../../../components/AuthLayout'
 import useTheme from '../../../hooks/useTheme'
+import { SignupNavigatorContext } from '../../../navigation/SignupNavigator'
 import { SignUpStackParamList } from '../../../types'
 
 type Props = {
@@ -24,13 +25,13 @@ const UsernamePass: React.FC<Props> = (props) => {
   const [loading, setLoading] = React.useState<boolean>(false)
   const password = React.useRef<Input>(undefined!)
   const repeatPassword = React.useRef<Input>(undefined!)
+  const state = React.useContext(SignupNavigatorContext)
 
   const submit = (fields: InputFields) => {
-    console.log(fields)
     props.navigation.navigate('StepOne')
+    state.current = { ...state.current, ...fields }
+    console.log(state.current)
   }
-
-  console.log(errors, 'reiniciando')
 
   return (
     <AuthLayout>

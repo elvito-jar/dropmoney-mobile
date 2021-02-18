@@ -9,37 +9,38 @@ import UsernamePass from '../../screens/Signup/UsernamePass'
 import { SignUpStackParamList } from '../../types'
 
 type State = {
+  username: string
+  password: string
   name: string
   lastName: string
   cedula: string
-  email: string
-  phoneNumber: string
+  birthday: Date
+  address: string
   state: string
   city: string
-  addressOne: string
-  addresTwo: string
+  zipCode: string
+  email: string
+  phoneNumber: string
 }
 
 const initialState: State = {
+  username: '',
+  password: '',
   name: '',
+  birthday: undefined!,
   lastName: '',
   cedula: '',
   email: '',
   phoneNumber: '',
   state: '',
   city: '',
-  addressOne: '',
-  addresTwo: '',
+  address: '',
+  zipCode: '',
 }
 
 type Actions = { type: 'INPUT'; input: string; value: string }
 
-type ContextSignupNavigator = {
-  state: State
-  dispatch: React.Dispatch<Actions>
-}
-
-const SignupNavigatorContext = React.createContext<ContextSignupNavigator>(undefined!)
+export const SignupNavigatorContext = React.createContext<React.MutableRefObject<State>>(undefined!)
 
 const Stack = createStackNavigator<SignUpStackParamList>()
 function reducer(state: State, action: Actions): State {
@@ -53,19 +54,19 @@ function reducer(state: State, action: Actions): State {
 }
 
 const SignupNavigator: React.FC = (props) => {
-  const [state, dispatch] = React.useReducer(reducer, initialState)
+  const state = React.useRef<State>(initialState)
   return (
-    <SignupNavigatorContext.Provider value={{ state, dispatch }}>
+    <SignupNavigatorContext.Provider value={state}>
       <Stack.Navigator
         screenOptions={{
           headerShown: false,
         }}>
-        <Stack.Screen name='StepFour' component={StepFour} />
-        <Stack.Screen name='StepFive' component={StepFive} />
         <Stack.Screen name='UsernamePass' component={UsernamePass} />
         <Stack.Screen name='StepOne' component={StepOne} />
         <Stack.Screen name='StepTwo' component={StepTwo} />
         <Stack.Screen name='StepThree' component={StepThree} />
+        <Stack.Screen name='StepFour' component={StepFour} />
+        <Stack.Screen name='StepFive' component={StepFive} />
       </Stack.Navigator>
     </SignupNavigatorContext.Provider>
   )

@@ -6,6 +6,7 @@ import { Button, Input } from 'react-native-elements'
 import AuthLayout from '../../../components/AuthLayout'
 import Select from '../../../components/Select'
 import useTheme from '../../../hooks/useTheme'
+import { SignupNavigatorContext } from '../../../navigation/SignupNavigator'
 import { SignUpStackParamList, VenezuelaState } from '../../../types'
 
 type Props = {
@@ -24,6 +25,7 @@ const StepThree: React.FC<Props> = ({ navigation }) => {
   const { theme } = useTheme()
   const [showSelect, setShowSelect] = React.useState<boolean>(false)
   const [loading, setLoading] = React.useState<boolean>(false)
+  const state = React.useContext(SignupNavigatorContext)
   const input2 = React.useRef<Input>(undefined!)
   const input3 = React.useRef<Input>(undefined!)
   const input4 = React.useRef<Input>(undefined!)
@@ -37,8 +39,9 @@ const StepThree: React.FC<Props> = ({ navigation }) => {
     setShowSelect(false)
   }
 
-  const onSubmit = (data: InputFields) => {
+  const onSubmit = (fields: InputFields) => {
     setLoading(true)
+    state.current = { ...state.current, ...fields }
     setTimeout(() => {
       navigation.navigate('StepFour')
       setLoading(false)

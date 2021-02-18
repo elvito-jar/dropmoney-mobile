@@ -6,6 +6,7 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { Button, Input } from 'react-native-elements'
 import AuthLayout from '../../../components/AuthLayout'
 import useTheme from '../../../hooks/useTheme'
+import { SignupNavigatorContext } from '../../../navigation/SignupNavigator'
 import { SignUpStackParamList } from '../../../types'
 
 type Props = {
@@ -14,7 +15,7 @@ type Props = {
 
 type InputFields = {
   email: string
-  numberTel: string
+  phoneNumber: string
 }
 
 const StepFour: React.FC<Props> = ({ navigation }) => {
@@ -22,6 +23,7 @@ const StepFour: React.FC<Props> = ({ navigation }) => {
   const { control, handleSubmit, formState } = useForm<InputFields>({ mode: 'onSubmit' })
   const [loading, setLoading] = React.useState<boolean>(false)
   const input2 = React.useRef<Input>(undefined!)
+  const state = React.useContext(SignupNavigatorContext)
   const Formatter = React.useRef(new AsYouType('VE'))
   const { errors } = formState
 
@@ -41,10 +43,12 @@ const StepFour: React.FC<Props> = ({ navigation }) => {
     )
   }
 
-  console.log(errors)
-
-  const submit = (data: InputFields) => {
-    navigation.navigate('StepFive')
+  const submit = (fields: InputFields) => {
+    setLoading(true)
+    state.current = { ...state.current, ...fields }
+    setTimeout(() => {
+      navigation.navigate('StepFive')
+    }, 1000)
   }
 
   const emailRegex = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/g
@@ -89,7 +93,7 @@ const StepFour: React.FC<Props> = ({ navigation }) => {
             </View>
             <Controller
               control={control}
-              name='numberTel'
+              name='phoneNumber'
               defaultValue=''
               rules={{
                 required: { value: true, message: 'Este campo es obligatorio.' },
@@ -117,8 +121,8 @@ const StepFour: React.FC<Props> = ({ navigation }) => {
                 />
               )}
             />
-            {errors.numberTel?.message && (
-              <Text style={[Styles.errorPhone]}>{errors.numberTel?.message || ''}</Text>
+            {errors.phoneNumber?.message && (
+              <Text style={[Styles.errorPhone]}>{errors.phoneNumber?.message || ''}</Text>
             )}
           </View>
         </View>
@@ -126,6 +130,7 @@ const StepFour: React.FC<Props> = ({ navigation }) => {
           Te enviaremos un correo y código de verificación al respectivo correo y número telefónico escrito aquí.
         </Text>
         <Button
+          loading={loading}
           containerStyle={{ paddingHorizontal: 10 }}
           title='Verificar Celular'
           onPress={handleSubmit(submit)}
