@@ -48,8 +48,8 @@ const StepFive: React.FC<Props> = (props) => {
   const submit = () => {
     setLoading(true)
     setTimeout(() => {
-      props.navigation.navigate('Presentation')
-    }, 1500)
+      props.navigation.navigate('SuccessSignup')
+    }, 2500)
   }
   const handleChange = (value: string) => {
     if (code.length >= CODE_LENGTH.length) return null
