@@ -1,4 +1,3 @@
-import SignupNavigator, { SignupNavigatorContext } from './SignupNavigator';
+import SignupNavigator from './SignupNavigator'
 
-export default SignupNavigator;
-export { SignupNavigatorContext }
+export default SignupNavigator

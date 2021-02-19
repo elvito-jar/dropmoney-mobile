@@ -4,8 +4,8 @@ import { Controller, useForm } from 'react-hook-form'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { Button, Input } from 'react-native-elements'
 import AuthLayout from '../../../components/AuthLayout'
+import useSignupState from '../../../hooks/useSignupState'
 import useTheme from '../../../hooks/useTheme'
-import { SignupNavigatorContext } from '../../../navigation/SignupNavigator'
 import { SignUpStackParamList } from '../../../types'
 
 type Props = {
@@ -25,7 +25,7 @@ const StepOne: React.FC<Props> = ({ navigation }) => {
   const [loading, setLoading] = React.useState<boolean>(false)
   const { theme } = useTheme()
   const { control, handleSubmit, errors } = useForm<InputFields>()
-  const state = React.useContext(SignupNavigatorContext)
+  const state = useSignupState()
 
   const submit = (fields: InputFields) => {
     setLoading(true)
@@ -72,6 +72,7 @@ const StepOne: React.FC<Props> = ({ navigation }) => {
                     Styles.inputInner,
                     { borderColor: errors.name ? 'red' : 'rgba(0, 0, 0, 0.13)' },
                   ]}
+                  inputStyle={{ fontSize: 15 }}
                   containerStyle={[Styles.inputContainer, { paddingRight: 5 }]}
                   onChangeText={(value) => onChange(value)}
                   value={value}
@@ -97,6 +98,7 @@ const StepOne: React.FC<Props> = ({ navigation }) => {
                     Styles.inputInner,
                     { borderColor: errors.lastName ? 'red' : 'rgba(0, 0, 0, 0.13)' },
                   ]}
+                  inputStyle={{ fontSize: 15 }}
                   containerStyle={[Styles.inputContainer, { paddingLeft: 5 }]}
                   onChangeText={(value) => onChange(value)}
                   value={value}
@@ -121,6 +123,7 @@ const StepOne: React.FC<Props> = ({ navigation }) => {
                     Styles.inputInner,
                     { borderColor: errors.cedula ? 'red' : 'rgba(0, 0, 0, 0.13)' },
                   ]}
+                  inputStyle={{ fontSize: 15 }}
                   containerStyle={[Styles.inputContainer, { width: '100%', flex: 0 }]}
                   onChangeText={(value) => onChange(value)}
                   value={value}
@@ -167,6 +170,7 @@ const Styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     paddingLeft: 10,
+    borderColor: 'rgba(0, 0, 0, .1)',
   },
   helpText: {
     textAlign: 'center',

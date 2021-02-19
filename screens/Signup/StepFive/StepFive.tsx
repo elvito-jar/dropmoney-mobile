@@ -14,8 +14,8 @@ import Toast from 'react-native-easy-toast'
 import { Button } from 'react-native-elements'
 import AuthLayout from '../../../components/AuthLayout'
 import FullScreenLoader from '../../../components/FullScreenLoader'
+import useSignupState from '../../../hooks/useSignupState'
 import useTheme from '../../../hooks/useTheme'
-import { SignupNavigatorContext } from '../../../navigation/SignupNavigator'
 import { SignUpStackParamList } from '../../../types'
 
 type Props = {
@@ -33,7 +33,8 @@ const CODE_LENGTH = new Array(4).fill(0)
 const StepFive: React.FC<Props> = (props) => {
   const toast = React.useRef<Toast | null>(undefined!)
   const [code, setCode] = React.useState<string>('')
-  const state = React.useContext(SignupNavigatorContext)
+  const [loading, setLoading] = React.useState<boolean>(false)
+  const state = useSignupState()
   const [visibleLoader, setVisibleLoader] = React.useState<boolean>(false)
   const [successLoader, setSuccessLoader] = React.useState<boolean>(false)
   const [focus, setFocus] = React.useState<boolean>(false)
@@ -44,7 +45,12 @@ const StepFive: React.FC<Props> = (props) => {
     () => (code?.length < CODE_LENGTH.length ? code?.length : CODE_LENGTH.length - 1),
     [code]
   )
-  const verifyCode = () => {}
+  const submit = () => {
+    setLoading(true)
+    setTimeout(() => {
+      props.navigation.navigate('Presentation')
+    }, 1500)
+  }
   const handleChange = (value: string) => {
     if (code.length >= CODE_LENGTH.length) return null
     setCode((code + value).slice(0, CODE_LENGTH.length))
@@ -54,8 +60,6 @@ const StepFive: React.FC<Props> = (props) => {
       setCode(code.slice(0, code.length - 1))
     }
   }
-
-  console.log(state.current)
 
   const showToast = () => {
     toast.current?.show(
@@ -86,8 +90,10 @@ const StepFive: React.FC<Props> = (props) => {
                 onFocus={() => setFocus(true)}
                 onBlur={() => setFocus(false)}
                 autoFocus
+                editable={!loading}
+                textContentType='oneTimeCode'
                 onChangeText={handleChange}
-                keyboardType='numeric'
+                keyboardType='number-pad'
                 style={[
                   Styles.input,
                   {
@@ -120,7 +126,12 @@ const StepFive: React.FC<Props> = (props) => {
               onPress={() => alert('enviando de nuevo')}
             />
           </View>
-          <Button containerStyle={{ paddingHorizontal: 15 }} title='Verificar Codigo' onPress={showToast} />
+          <Button
+            loading={loading}
+            containerStyle={{ paddingHorizontal: 15 }}
+            title='Verificar Codigo'
+            onPress={submit}
+          />
           <FullScreenLoader visible={visibleLoader} message='El mensaje se ha enviado' success={successLoader} />
         </ScrollView>
         <Toast ref={toast} positionValue={100} />

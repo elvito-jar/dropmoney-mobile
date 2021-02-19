@@ -1,29 +1,15 @@
 import { createStackNavigator } from '@react-navigation/stack'
 import React from 'react'
+import { SignupNavigatorContext } from '../../hooks/useSignupState'
 import StepFive from '../../screens/Signup/StepFive'
 import StepFour from '../../screens/Signup/StepFour'
 import StepOne from '../../screens/Signup/StepOne'
 import StepThree from '../../screens/Signup/StepThree'
 import StepTwo from '../../screens/Signup/StepTwo'
 import UsernamePass from '../../screens/Signup/UsernamePass'
-import { SignUpStackParamList } from '../../types'
+import { SignUpStackParamList, SignupState } from '../../types'
 
-type State = {
-  username: string
-  password: string
-  name: string
-  lastName: string
-  cedula: string
-  birthday: Date
-  address: string
-  state: string
-  city: string
-  zipCode: string
-  email: string
-  phoneNumber: string
-}
-
-const initialState: State = {
+const initialState: SignupState = {
   username: '',
   password: '',
   name: '',
@@ -38,23 +24,10 @@ const initialState: State = {
   zipCode: '',
 }
 
-type Actions = { type: 'INPUT'; input: string; value: string }
-
-export const SignupNavigatorContext = React.createContext<React.MutableRefObject<State>>(undefined!)
-
 const Stack = createStackNavigator<SignUpStackParamList>()
-function reducer(state: State, action: Actions): State {
-  switch (action.type) {
-    case 'INPUT':
-      return { ...state, [action.input]: action.value }
-
-    default:
-      throw Error('Accion no identificada SignupNavigator.tsx')
-  }
-}
 
 const SignupNavigator: React.FC = (props) => {
-  const state = React.useRef<State>(initialState)
+  const state = React.useRef<SignupState>(initialState)
   return (
     <SignupNavigatorContext.Provider value={state}>
       <Stack.Navigator

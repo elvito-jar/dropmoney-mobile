@@ -1,5 +1,6 @@
 export type RootStackParamList = {
   Root: undefined
+  Presentation: undefined
   NotFound: undefined
   Login: undefined
   SignUp: undefined
@@ -12,6 +13,7 @@ export type SignUpStackParamList = {
   StepFour: undefined
   UsernamePass: undefined
   StepFive: undefined
+  Presentation: undefined
 }
 
 export type BottomTabParamList = {
@@ -25,6 +27,21 @@ export type TabOneParamList = {
 
 export type TabTwoParamList = {
   TabTwoScreen: undefined
+}
+
+export type SignupState = {
+  username: string
+  password: string
+  name: string
+  lastName: string
+  cedula: string
+  birthday: Date
+  address: string
+  state: string
+  city: string
+  zipCode: string
+  email: string
+  phoneNumber: string
 }
 
 export type VenezuelaState =

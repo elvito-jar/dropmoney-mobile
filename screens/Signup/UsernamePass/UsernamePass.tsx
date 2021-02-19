@@ -4,8 +4,8 @@ import { Controller, useForm } from 'react-hook-form'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { Button, Input } from 'react-native-elements'
 import AuthLayout from '../../../components/AuthLayout'
+import useSignupState from '../../../hooks/useSignupState'
 import useTheme from '../../../hooks/useTheme'
-import { SignupNavigatorContext } from '../../../navigation/SignupNavigator'
 import { SignUpStackParamList } from '../../../types'
 
 type Props = {
@@ -24,8 +24,8 @@ const UsernamePass: React.FC<Props> = (props) => {
   const { errors } = formState
   const [loading, setLoading] = React.useState<boolean>(false)
   const password = React.useRef<Input>(undefined!)
-  const repeatPassword = React.useRef<Input>(undefined!)
-  const state = React.useContext(SignupNavigatorContext)
+  const state = useSignupState()
+  const [showPassword, setShowPassword] = React.useState<boolean>(false)
 
   const submit = (fields: InputFields) => {
     props.navigation.navigate('StepOne')
@@ -54,11 +54,13 @@ const UsernamePass: React.FC<Props> = (props) => {
                 errorMessage={errors.username?.message}
                 errorStyle={[Styles.errorMessage, { marginBottom: errors.username ? 10 : 0 }]}
                 placeholder='Usuario'
+                textContentType='username'
                 autoFocus
                 disabled={loading}
                 clearButtonMode='while-editing'
                 containerStyle={Styles.inputContainer}
                 inputContainerStyle={Styles.inputInner}
+                inputStyle={{ fontSize: 15 }}
                 onChangeText={onChange}
                 returnKeyType='next'
                 onSubmitEditing={() => password.current.focus()}
@@ -85,42 +87,22 @@ const UsernamePass: React.FC<Props> = (props) => {
                 ref={password}
                 placeholder='Contraseña'
                 disabled={loading}
-                secureTextEntry
+                secureTextEntry={!showPassword}
                 textContentType='password'
-                clearButtonMode='while-editing'
                 containerStyle={Styles.inputContainer}
                 inputContainerStyle={Styles.inputInner}
+                inputStyle={{ fontSize: 15 }}
                 onChangeText={onChange}
+                rightIcon={{
+                  name: showPassword ? 'eye-slash' : 'eye',
+                  type: 'font-awesome',
+                  color: '#868B8E',
+                  onPress: () => setShowPassword(!showPassword),
+                }}
+                rightIconContainerStyle={{
+                  paddingRight: 15,
+                }}
                 returnKeyType='next'
-                value={value}
-                onSubmitEditing={() => repeatPassword.current.focus()}
-              />
-            )}
-          />
-          <Controller
-            control={control}
-            name='repeatPassword'
-            defaultValue=''
-            rules={{
-              required: { value: true, message: 'Este campo es obligatorio.' },
-              validate: {
-                repeat: (value) => value === control.getValues().password || 'Las contraseñas deben coincidir.',
-              },
-            }}
-            render={({ onChange, value }) => (
-              <Input
-                errorMessage={errors.repeatPassword?.message}
-                errorStyle={[Styles.errorMessage, { marginBottom: errors.repeatPassword ? 10 : 0 }]}
-                ref={repeatPassword}
-                placeholder='Escribe de nuevo la Contraseña'
-                disabled={loading}
-                secureTextEntry
-                textContentType='password'
-                clearButtonMode='while-editing'
-                containerStyle={Styles.inputContainer}
-                inputContainerStyle={[Styles.inputInner, {}]}
-                onChangeText={onChange}
-                returnKeyType='done'
                 value={value}
                 onSubmitEditing={handleSubmit(submit)}
               />
@@ -157,11 +139,13 @@ const Styles = StyleSheet.create({
   inputContainer: {
     flex: 1,
     flexBasis: '100%',
+    borderBottomWidth: 0,
   },
   inputInner: {
     borderWidth: 1,
     borderRadius: 5,
     paddingLeft: 10,
+    borderColor: 'rgba(0, 0, 0, .1)',
   },
   errorMessage: {},
 })

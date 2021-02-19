@@ -34,7 +34,7 @@ const AuthLayout: React.FC = ({ children }) => {
         }}>
         <Button
           type='clear'
-          onPress={() => navigation.navigate('Login')}
+          onPress={() => navigation.navigate('Presentation')}
           title='Ya tienes una cuenta? Inicia Sesión'
           titleStyle={{ fontSize: 16 }}
         />

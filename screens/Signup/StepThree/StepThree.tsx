@@ -5,8 +5,8 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { Button, Input } from 'react-native-elements'
 import AuthLayout from '../../../components/AuthLayout'
 import Select from '../../../components/Select'
+import useSignupState from '../../../hooks/useSignupState'
 import useTheme from '../../../hooks/useTheme'
-import { SignupNavigatorContext } from '../../../navigation/SignupNavigator'
 import { SignUpStackParamList, VenezuelaState } from '../../../types'
 
 type Props = {
@@ -20,15 +20,14 @@ type InputFields = {
 }
 
 const StepThree: React.FC<Props> = ({ navigation }) => {
-  const { control, handleSubmit, errors } = useForm<InputFields>()
+  const { control, handleSubmit } = useForm<InputFields>()
   const [venezuelaState, setVenezuelaState] = React.useState<VenezuelaState>('Zulia')
   const { theme } = useTheme()
   const [showSelect, setShowSelect] = React.useState<boolean>(false)
   const [loading, setLoading] = React.useState<boolean>(false)
-  const state = React.useContext(SignupNavigatorContext)
+  const state = useSignupState()
   const input2 = React.useRef<Input>(undefined!)
   const input3 = React.useRef<Input>(undefined!)
-  const input4 = React.useRef<Input>(undefined!)
 
   const onDone = (state: VenezuelaState) => {
     setVenezuelaState(state)
@@ -41,7 +40,7 @@ const StepThree: React.FC<Props> = ({ navigation }) => {
 
   const onSubmit = (fields: InputFields) => {
     setLoading(true)
-    state.current = { ...state.current, ...fields }
+    state.current = { ...state.current, ...fields, state: venezuelaState }
     setTimeout(() => {
       navigation.navigate('StepFour')
       setLoading(false)
@@ -68,6 +67,7 @@ const StepThree: React.FC<Props> = ({ navigation }) => {
                 clearButtonMode='while-editing'
                 inputContainerStyle={[Styles.inputInner]}
                 containerStyle={[Styles.inputContainer]}
+                inputStyle={{ fontSize: 15 }}
                 value={value}
                 onChangeText={(value) => onChange(value)}
                 returnKeyType='next'
@@ -91,6 +91,7 @@ const StepThree: React.FC<Props> = ({ navigation }) => {
                 clearButtonMode='while-editing'
                 inputContainerStyle={[Styles.inputInner]}
                 containerStyle={[Styles.inputContainer, { width: '50%' }]}
+                inputStyle={{ fontSize: 15 }}
                 value={value}
                 onChangeText={(value) => onChange(value)}
                 returnKeyType='next'
@@ -113,6 +114,7 @@ const StepThree: React.FC<Props> = ({ navigation }) => {
                 clearButtonMode='while-editing'
                 inputContainerStyle={[Styles.inputInner]}
                 containerStyle={[Styles.inputContainer, { width: '50%' }]}
+                inputStyle={{ fontSize: 15 }}
                 value={value}
                 onChangeText={(value) => onChange(value)}
                 returnKeyType='next'
@@ -175,6 +177,7 @@ const Styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     paddingLeft: 10,
+    borderColor: 'rgba(0, 0, 0, .1)',
   },
   stateBtn: {
     justifyContent: 'space-between',

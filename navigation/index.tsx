@@ -6,6 +6,7 @@ import { ThemeProvider } from 'react-native-elements'
 import { darkTheme, lightTheme } from '../constants/theme'
 import LoginScreen from '../screens/LoginScreen'
 import NotFoundScreen from '../screens/NotFoundScreen'
+import Presentation from '../screens/Presentation'
 // import SignUpScreen from '../screens/SignUpScreen';
 import { RootStackParamList } from '../types'
 // import BottomTabNavigator from './BottomTabNavigator';
@@ -32,10 +33,11 @@ const Stack = createStackNavigator<RootStackParamList>()
 
 function RootNavigator() {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: true }}>
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
       {/* <Stack.Screen name="Root" component={BottomTabNavigator} /> */}
+      <Stack.Screen name='Presentation' component={Presentation} />
       <Stack.Screen name='Login' component={LoginScreen} />
-      <Stack.Screen name='SignUp' options={{ headerShown: false }} component={SignupNavigator} />
+      <Stack.Screen name='SignUp' component={SignupNavigator} />
       <Stack.Screen name='NotFound' component={NotFoundScreen} options={{ title: 'Oops!' }} />
     </Stack.Navigator>
   )

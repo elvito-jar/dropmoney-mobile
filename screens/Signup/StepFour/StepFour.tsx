@@ -5,8 +5,8 @@ import { Controller, useForm } from 'react-hook-form'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { Button, Input } from 'react-native-elements'
 import AuthLayout from '../../../components/AuthLayout'
+import useSignupState from '../../../hooks/useSignupState'
 import useTheme from '../../../hooks/useTheme'
-import { SignupNavigatorContext } from '../../../navigation/SignupNavigator'
 import { SignUpStackParamList } from '../../../types'
 
 type Props = {
@@ -23,7 +23,7 @@ const StepFour: React.FC<Props> = ({ navigation }) => {
   const { control, handleSubmit, formState } = useForm<InputFields>({ mode: 'onSubmit' })
   const [loading, setLoading] = React.useState<boolean>(false)
   const input2 = React.useRef<Input>(undefined!)
-  const state = React.useContext(SignupNavigatorContext)
+  const state = useSignupState()
   const Formatter = React.useRef(new AsYouType('VE'))
   const { errors } = formState
 
@@ -78,6 +78,7 @@ const StepFour: React.FC<Props> = ({ navigation }) => {
                 clearButtonMode='while-editing'
                 containerStyle={Styles.inputContainer}
                 inputContainerStyle={[Styles.inputInner]}
+                inputStyle={{ fontSize: 15 }}
                 value={value}
                 keyboardType='email-address'
                 onChangeText={(value) => onChange(value)}
@@ -87,8 +88,7 @@ const StepFour: React.FC<Props> = ({ navigation }) => {
             )}
           />
           <View style={[Styles.form, { width: '100%' }]}>
-            <View
-              style={[Styles.leftTel, { backgroundColor: theme.colors?.grey5, borderColor: theme.colors?.grey3 }]}>
+            <View style={[Styles.leftTel, { backgroundColor: theme.colors?.grey5 }]}>
               <Text style={{ color: theme.colors?.grey2 }}>+58</Text>
             </View>
             <Controller
@@ -114,6 +114,7 @@ const StepFour: React.FC<Props> = ({ navigation }) => {
                   clearButtonMode='while-editing'
                   containerStyle={[Styles.inputContainer, { paddingLeft: 0 }]}
                   inputContainerStyle={[Styles.inputInner, { borderBottomLeftRadius: 0, borderTopLeftRadius: 0 }]}
+                  inputStyle={{ fontSize: 15 }}
                   value={value}
                   onChangeText={(value) => onChange(normalizeTel(value))}
                   returnKeyType='done'
@@ -163,6 +164,7 @@ const Styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 1,
+    borderColor: 'rgba(0, 0, 0, .1)',
     borderRightWidth: 0,
     borderTopLeftRadius: 5,
     borderBottomLeftRadius: 5,
@@ -174,6 +176,7 @@ const Styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     paddingLeft: 10,
+    borderColor: 'rgba(0, 0, 0, .1)',
   },
   errorPhone: {
     flexBasis: '100%',
