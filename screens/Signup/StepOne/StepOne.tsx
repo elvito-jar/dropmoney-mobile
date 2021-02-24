@@ -28,12 +28,7 @@ const StepOne: React.FC<Props> = ({ navigation }) => {
   const state = useSignupState()
 
   const submit = (fields: InputFields) => {
-    setLoading(true)
-    state.current = { ...state.current, ...fields }
-    setTimeout(() => {
-      navigation.navigate('StepTwo')
-      setLoading(false)
-    }, 500)
+    navigation.navigate('StepTwo')
   }
 
   React.useEffect(() => {
@@ -54,59 +49,61 @@ const StepOne: React.FC<Props> = ({ navigation }) => {
         <View style={Styles.container}>
           <Text style={[Styles.title, { color: theme.colors?.primary }]}>Cual es tu Nombre?</Text>
           <View style={Styles.inputsWrapper}>
-            <Controller
-              control={control}
-              rules={{ required: true }}
-              name='name'
-              defaultValue=''
-              render={({ onChange, value }) => (
-                <Input
-                  disabled={loading}
-                  ref={input1}
-                  autoFocus
-                  textContentType='givenName'
-                  autoCompleteType='name'
-                  placeholder='Nombre'
-                  clearButtonMode='while-editing'
-                  inputContainerStyle={[
-                    Styles.inputInner,
-                    { borderColor: errors.name ? 'red' : 'rgba(0, 0, 0, 0.13)' },
-                  ]}
-                  inputStyle={{ fontSize: 15 }}
-                  containerStyle={[Styles.inputContainer, { paddingRight: 5 }]}
-                  onChangeText={(value) => onChange(value)}
-                  value={value}
-                  returnKeyType='next'
-                  onSubmitEditing={() => input2.current.focus()}
-                />
-              )}
-            />
-            <Controller
-              control={control}
-              name='lastName'
-              defaultValue=''
-              rules={{ required: true }}
-              render={({ onChange, value }) => (
-                <Input
-                  disabled={loading}
-                  textContentType='familyName'
-                  autoCompleteType='name'
-                  ref={input2}
-                  clearButtonMode='while-editing'
-                  placeholder='Apellido'
-                  inputContainerStyle={[
-                    Styles.inputInner,
-                    { borderColor: errors.lastName ? 'red' : 'rgba(0, 0, 0, 0.13)' },
-                  ]}
-                  inputStyle={{ fontSize: 15 }}
-                  containerStyle={[Styles.inputContainer, { paddingLeft: 5 }]}
-                  onChangeText={(value) => onChange(value)}
-                  value={value}
-                  returnKeyType='next'
-                  onSubmitEditing={() => input3.current.focus()}
-                />
-              )}
-            />
+            <View style={{ flexDirection: 'row', width: '100%' }}>
+              <Controller
+                control={control}
+                rules={{ required: true }}
+                name='name'
+                defaultValue=''
+                render={({ onChange, value }) => (
+                  <Input
+                    disabled={loading}
+                    ref={input1}
+                    autoFocus
+                    textContentType='givenName'
+                    autoCompleteType='name'
+                    placeholder='Nombre'
+                    clearButtonMode='while-editing'
+                    inputContainerStyle={[
+                      Styles.inputInner,
+                      { borderColor: errors.name ? 'red' : 'rgba(0, 0, 0, 0.13)' },
+                    ]}
+                    inputStyle={{ fontSize: 15 }}
+                    containerStyle={[Styles.inputContainer, { paddingRight: 5 }]}
+                    onChangeText={(value) => onChange(value)}
+                    value={value}
+                    returnKeyType='next'
+                    onSubmitEditing={() => input2.current.focus()}
+                  />
+                )}
+              />
+              <Controller
+                control={control}
+                name='lastName'
+                defaultValue=''
+                rules={{ required: true }}
+                render={({ onChange, value }) => (
+                  <Input
+                    disabled={loading}
+                    textContentType='familyName'
+                    autoCompleteType='name'
+                    ref={input2}
+                    clearButtonMode='while-editing'
+                    placeholder='Apellido'
+                    inputContainerStyle={[
+                      Styles.inputInner,
+                      { borderColor: errors.lastName ? 'red' : 'rgba(0, 0, 0, 0.13)' },
+                    ]}
+                    inputStyle={{ fontSize: 15 }}
+                    containerStyle={[Styles.inputContainer, { paddingLeft: 5 }]}
+                    onChangeText={(value) => onChange(value)}
+                    value={value}
+                    returnKeyType='next'
+                    onSubmitEditing={() => input3.current.focus()}
+                  />
+                )}
+              />
+            </View>
             <Controller
               control={control}
               name='cedula'
@@ -158,7 +155,6 @@ const Styles = StyleSheet.create({
     fontWeight: '500',
   },
   inputsWrapper: {
-    flexDirection: 'row',
     flexWrap: 'wrap',
     paddingTop: 20,
   },

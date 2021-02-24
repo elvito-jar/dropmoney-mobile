@@ -24,7 +24,6 @@ const StepThree: React.FC<Props> = ({ navigation }) => {
   const [venezuelaState, setVenezuelaState] = React.useState<VenezuelaState>('Zulia')
   const { theme } = useTheme()
   const [showSelect, setShowSelect] = React.useState<boolean>(false)
-  const [loading, setLoading] = React.useState<boolean>(false)
   const state = useSignupState()
   const input2 = React.useRef<Input>(undefined!)
   const input3 = React.useRef<Input>(undefined!)
@@ -39,12 +38,8 @@ const StepThree: React.FC<Props> = ({ navigation }) => {
   }
 
   const onSubmit = (fields: InputFields) => {
-    setLoading(true)
     state.current = { ...state.current, ...fields, state: venezuelaState }
-    setTimeout(() => {
-      navigation.navigate('StepFour')
-      setLoading(false)
-    }, 800)
+    navigation.navigate('StepFour')
   }
 
   return (
@@ -59,7 +54,6 @@ const StepThree: React.FC<Props> = ({ navigation }) => {
             defaultValue=''
             render={({ onChange, value }) => (
               <Input
-                disabled={loading}
                 autoFocus
                 textContentType='fullStreetAddress'
                 autoCompleteType='street-address'
@@ -84,7 +78,6 @@ const StepThree: React.FC<Props> = ({ navigation }) => {
               <Input
                 ref={input2}
                 keyboardType='number-pad'
-                disabled={loading}
                 textContentType='fullStreetAddress'
                 autoCompleteType='street-address'
                 placeholder='Codigo Postal'
@@ -107,7 +100,6 @@ const StepThree: React.FC<Props> = ({ navigation }) => {
             render={({ onChange, value }) => (
               <Input
                 ref={input3}
-                disabled={loading}
                 textContentType='fullStreetAddress'
                 autoCompleteType='street-address'
                 placeholder='Ciudad'
@@ -131,7 +123,6 @@ const StepThree: React.FC<Props> = ({ navigation }) => {
               type: 'font-awesome',
               size: 12,
             }}
-            disabled={loading}
             type='outline'
             iconRight={true}
             onPress={() => setShowSelect(true)}
@@ -141,12 +132,7 @@ const StepThree: React.FC<Props> = ({ navigation }) => {
             titleStyle={{ color: theme.colors?.grey1 }}
           />
         </View>
-        <Button
-          containerStyle={{ paddingHorizontal: 10 }}
-          loading={loading}
-          onPress={handleSubmit(onSubmit)}
-          title='Siguiente'
-        />
+        <Button containerStyle={{ paddingHorizontal: 10 }} onPress={handleSubmit(onSubmit)} title='Siguiente' />
         <Select state={venezuelaState} onDone={onDone} onCancel={onCancel} visible={showSelect} />
       </ScrollView>
     </AuthLayout>

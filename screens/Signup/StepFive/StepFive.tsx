@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { StackNavigationProp } from '@react-navigation/stack'
 import React from 'react'
 import {
@@ -14,19 +15,15 @@ import Toast from 'react-native-easy-toast'
 import { Button } from 'react-native-elements'
 import AuthLayout from '../../../components/AuthLayout'
 import FullScreenLoader from '../../../components/FullScreenLoader'
+import ToastMessage from '../../../components/ToastMessage'
 import useSignupState from '../../../hooks/useSignupState'
 import useTheme from '../../../hooks/useTheme'
 import { SignUpStackParamList } from '../../../types'
+import makeRequest from '../../../utils/makeRequest'
 
 type Props = {
   navigation: StackNavigationProp<SignUpStackParamList, 'StepFive'>
 }
-
-const CustomToast: React.FC<{ message: string }> = ({ message }) => (
-  <View style={[Styles.toast]}>
-    <Text style={{ color: 'white', textAlign: 'center' }}>{message}</Text>
-  </View>
-)
 
 const CODE_LENGTH = new Array(4).fill(0)
 
@@ -45,27 +42,72 @@ const StepFive: React.FC<Props> = (props) => {
     () => (code?.length < CODE_LENGTH.length ? code?.length : CODE_LENGTH.length - 1),
     [code]
   )
-  const submit = () => {
-    setLoading(true)
-    setTimeout(() => {
-      props.navigation.navigate('SuccessSignup')
-    }, 2500)
-  }
+
   const handleChange = (value: string) => {
     if (code.length >= CODE_LENGTH.length) return null
     setCode((code + value).slice(0, CODE_LENGTH.length))
   }
+
   const handleKeyPress = (e: NativeSyntheticEvent<TextInputKeyPressEventData>) => {
     if (e.nativeEvent.key === 'Backspace') {
       setCode(code.slice(0, code.length - 1))
     }
   }
 
-  const showToast = () => {
-    toast.current?.show(
-      <CustomToast message='Ha ocurrido un error enviando el mensaje. Intentalo de nuevo' />,
-      3000
-    )
+  const showToast = (message: string) => {
+    toast.current?.show(<ToastMessage message={message} />, 3000)
+  }
+
+  const resendCode = async () => {
+    setVisibleLoader(true)
+    const newValidationCode = (Math.floor(Math.random() * 10000) + 10000).toString().substring(1)
+    await AsyncStorage.setItem('@phoneNumber_codeValidation', newValidationCode)
+    const formData = new FormData()
+    formData.append('code', newValidationCode)
+    const config: RequestInit = {
+      headers: { 'Content-Type': 'multipart/form-data' },
+      method: 'POST',
+      body: formData,
+    }
+    const [res, err] = await makeRequest('http://localhost:5999/auth/phoneValidation', config)
+    if (err) {
+      setVisibleLoader(false)
+      showToast('Ha ocurrido un error enviando el mensaje. Intentalo de nuevo.')
+    } else {
+      setSuccessLoader(true)
+      setTimeout(() => {
+        setVisibleLoader(false)
+        setSuccessLoader(false)
+      }, 500)
+    }
+  }
+
+  const submit = async () => {
+    setLoading(true)
+    const validationCode = await AsyncStorage.getItem('@phoneNumber_codeValidation')
+    if (code !== validationCode) {
+      return showToast('Codigo incorrecto.')
+    }
+
+    const formData = new FormData()
+    for (const field in state.current) {
+      if (Object.prototype.hasOwnProperty.call(state.current, field)) {
+        formData.append(field, state.current[field].toString())
+      }
+    }
+    const config: RequestInit = {
+      headers: { 'Content-Type': 'multipart/form-data' },
+      method: 'POST',
+      body: formData,
+    }
+
+    const [, err] = await makeRequest('http://localhost:5999/auth/registrer', config)
+    if (err) {
+      showToast('Verifica tu conexión a internet.')
+    } else {
+      props.navigation.navigate('SuccessSignup')
+    }
+    return setLoading(false)
   }
 
   return (
@@ -119,12 +161,7 @@ const StepFive: React.FC<Props> = (props) => {
             <Text style={{ margin: 0, marginHorizontal: 0, color: theme.colors?.grey1, fontSize: 14 }}>
               ¿No recibió el código?
             </Text>
-            <Button
-              titleStyle={{ fontSize: 14 }}
-              type='clear'
-              title='Enviar de nuevo.'
-              onPress={() => alert('enviando de nuevo')}
-            />
+            <Button titleStyle={{ fontSize: 14 }} type='clear' title='Enviar de nuevo.' onPress={resendCode} />
           </View>
           <Button
             loading={loading}

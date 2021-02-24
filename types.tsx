@@ -31,6 +31,7 @@ export type TabTwoParamList = {
 }
 
 export type SignupState = {
+  [key: string]: string | Date
   username: string
   password: string
   name: string

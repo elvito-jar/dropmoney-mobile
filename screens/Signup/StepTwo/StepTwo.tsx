@@ -14,7 +14,6 @@ type Props = {
 }
 
 const StepTwo: React.FC<Props> = ({ navigation }) => {
-  const [loading, setLoading] = React.useState<boolean>(false)
   const [date, setDate] = React.useState<Date>(new Date(2000, 0, 1))
   const [show, setShow] = React.useState<boolean>(false)
   const { theme } = useTheme()
@@ -25,12 +24,8 @@ const StepTwo: React.FC<Props> = ({ navigation }) => {
   }
 
   const handleSubmit = () => {
-    setLoading(true)
     state.current = { ...state.current, birthday: date }
-    setTimeout(() => {
-      navigation.navigate('StepThree')
-      setLoading(false)
-    }, 800)
+    navigation.navigate('StepThree')
   }
 
   return (
@@ -38,7 +33,6 @@ const StepTwo: React.FC<Props> = ({ navigation }) => {
       <View style={Styles.container}>
         <Text style={[Styles.title, { color: theme.colors?.primary }]}>Cual es tu Fecha de Nacimiento?</Text>
         <Button
-          disabled={loading}
           raised
           type='outline'
           containerStyle={Styles.dateContainerBtn}
@@ -49,12 +43,7 @@ const StepTwo: React.FC<Props> = ({ navigation }) => {
           icon={{ name: 'chevron-down', type: 'font-awesome', size: 15 }}
           onPress={() => setShow(!show)}
         />
-        <Button
-          loading={loading}
-          containerStyle={{ width: '100%', marginTop: 20 }}
-          onPress={handleSubmit}
-          title='Siguiente'
-        />
+        <Button containerStyle={{ width: '100%', marginTop: 20 }} onPress={handleSubmit} title='Siguiente' />
         <DateTimeModalPicker
           isVisible={show}
           date={date}

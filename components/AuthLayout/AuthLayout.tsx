@@ -14,6 +14,7 @@ const AuthLayout: React.FC = ({ children }) => {
         leftComponent={{
           icon: 'angle-left',
           type: 'font-awesome',
+          accessibilityLabel: 'back',
           size: 34,
           color: theme.colors?.primary,
           onPress: () => navigation.goBack(),

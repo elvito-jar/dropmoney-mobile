@@ -30,7 +30,6 @@ const UsernamePass: React.FC<Props> = (props) => {
   const submit = (fields: InputFields) => {
     props.navigation.navigate('StepOne')
     state.current = { ...state.current, ...fields }
-    console.log(state.current)
   }
 
   return (
@@ -110,7 +109,7 @@ const UsernamePass: React.FC<Props> = (props) => {
           />
         </View>
         <Button
-          containerStyle={{ paddingHorizontal: 10 }}
+          containerStyle={{ paddingHorizontal: 10, marginTop: 10 }}
           title='Siguiente'
           loading={loading}
           onPress={handleSubmit(submit)}
