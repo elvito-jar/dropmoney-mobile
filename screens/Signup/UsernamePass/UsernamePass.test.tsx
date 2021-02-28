@@ -1,6 +1,5 @@
 import { useNavigation } from '@react-navigation/native'
 import { fireEvent, render, waitFor } from '@testing-library/react-native'
-import {} from 'module'
 import React from 'react'
 import UsernamePass from './UsernamePass'
 jest.mock('../../../hooks/useSignupState', () =>

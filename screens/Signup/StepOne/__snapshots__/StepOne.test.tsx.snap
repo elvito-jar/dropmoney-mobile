@@ -1,0 +1,1001 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<StepOne /> mostrar error campos requeridos 1`] = `
+<View
+  style={
+    Object {
+      "backgroundColor": "white",
+      "flex": 1,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "transparent",
+        "borderBottomColor": "#f2f2f2",
+        "borderBottomWidth": 0,
+        "flexDirection": "row",
+        "justifyContent": "space-between",
+        "paddingHorizontal": 10,
+        "paddingVertical": 10,
+      }
+    }
+    testID="headerContainer"
+  >
+    <RNCSafeAreaView
+      edges={
+        Array [
+          "left",
+          "top",
+          "right",
+        ]
+      }
+      style={
+        Object {
+          "flexDirection": "row",
+          "width": "100%",
+        }
+      }
+    >
+      <View
+        style={
+          Object {
+            "alignItems": "flex-start",
+            "flex": 1,
+          }
+        }
+      >
+        <View
+          style={
+            Object {
+              "alignItems": "flex-start",
+              "overflow": "hidden",
+            }
+          }
+        >
+          <View
+            accessibilityLabel="back"
+            accessible={true}
+            focusable={true}
+            onClick={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+          >
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "backgroundColor": "transparent",
+                  "justifyContent": "center",
+                }
+              }
+            >
+              <Text
+                allowFontScaling={false}
+                style={
+                  Array [
+                    Object {
+                      "color": "#2089dc",
+                      "fontSize": 34,
+                    },
+                    Object {
+                      "backgroundColor": "transparent",
+                    },
+                    Object {
+                      "fontFamily": "FontAwesome",
+                      "fontStyle": "normal",
+                      "fontWeight": "normal",
+                    },
+                    Object {},
+                  ]
+                }
+                testID="iconIcon"
+              >
+                
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "flex": 3,
+          }
+        }
+      />
+      <View
+        style={
+          Object {
+            "alignItems": "flex-end",
+            "flex": 1,
+          }
+        }
+      />
+    </RNCSafeAreaView>
+  </View>
+  <RCTScrollView>
+    <View>
+      <View
+        style={
+          Object {
+            "flex": 1,
+            "marginTop": 15,
+            "paddingHorizontal": 18,
+          }
+        }
+      >
+        <Text
+          style={
+            Array [
+              Object {
+                "fontSize": 22,
+                "fontWeight": "500",
+              },
+              Object {
+                "color": "#2089dc",
+              },
+            ]
+          }
+        >
+          Cual es tu Nombre?
+        </Text>
+        <View
+          style={
+            Object {
+              "flexWrap": "wrap",
+              "paddingTop": 20,
+            }
+          }
+        >
+          <View
+            style={
+              Object {
+                "flexDirection": "row",
+                "width": "100%",
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "flex": 1,
+                  "paddingHorizontal": 0,
+                  "paddingRight": 5,
+                  "width": "100%",
+                }
+              }
+            >
+              <View
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "borderBottomWidth": 1,
+                    "borderColor": "red",
+                    "borderRadius": 5,
+                    "borderWidth": 1,
+                    "flexDirection": "row",
+                    "paddingLeft": 10,
+                    "transform": Array [
+                      Object {
+                        "translateX": 0,
+                      },
+                    ],
+                  }
+                }
+              >
+                <TextInput
+                  allowFontScaling={true}
+                  autoCompleteType="name"
+                  autoFocus={true}
+                  clearButtonMode="while-editing"
+                  editable={true}
+                  onChangeText={[Function]}
+                  onSubmitEditing={[Function]}
+                  placeholder="Nombre"
+                  placeholderTextColor="#86939e"
+                  rejectResponderTermination={true}
+                  returnKeyType="next"
+                  style={
+                    Object {
+                      "alignSelf": "center",
+                      "color": "#242424",
+                      "flex": 1,
+                      "fontSize": 15,
+                      "minHeight": 40,
+                    }
+                  }
+                  testID="RNE__Input__text-input"
+                  textContentType="givenName"
+                  underlineColorAndroid="transparent"
+                  value=""
+                />
+              </View>
+              <Text
+                style={
+                  Object {
+                    "color": "#ff190c",
+                    "fontSize": 12,
+                    "margin": 5,
+                  }
+                }
+              />
+            </View>
+            <View
+              style={
+                Object {
+                  "flex": 1,
+                  "paddingHorizontal": 0,
+                  "paddingLeft": 5,
+                  "width": "100%",
+                }
+              }
+            >
+              <View
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "borderBottomWidth": 1,
+                    "borderColor": "red",
+                    "borderRadius": 5,
+                    "borderWidth": 1,
+                    "flexDirection": "row",
+                    "paddingLeft": 10,
+                    "transform": Array [
+                      Object {
+                        "translateX": 0,
+                      },
+                    ],
+                  }
+                }
+              >
+                <TextInput
+                  allowFontScaling={true}
+                  autoCompleteType="name"
+                  clearButtonMode="while-editing"
+                  editable={true}
+                  onChangeText={[Function]}
+                  onSubmitEditing={[Function]}
+                  placeholder="Apellido"
+                  placeholderTextColor="#86939e"
+                  rejectResponderTermination={true}
+                  returnKeyType="next"
+                  style={
+                    Object {
+                      "alignSelf": "center",
+                      "color": "#242424",
+                      "flex": 1,
+                      "fontSize": 15,
+                      "minHeight": 40,
+                    }
+                  }
+                  testID="RNE__Input__text-input"
+                  textContentType="familyName"
+                  underlineColorAndroid="transparent"
+                  value=""
+                />
+              </View>
+              <Text
+                style={
+                  Object {
+                    "color": "#ff190c",
+                    "fontSize": 12,
+                    "margin": 5,
+                  }
+                }
+              />
+            </View>
+          </View>
+          <View
+            style={
+              Object {
+                "flex": 0,
+                "paddingHorizontal": 0,
+                "width": "100%",
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "borderBottomWidth": 1,
+                  "borderColor": "red",
+                  "borderRadius": 5,
+                  "borderWidth": 1,
+                  "flexDirection": "row",
+                  "paddingLeft": 10,
+                  "transform": Array [
+                    Object {
+                      "translateX": 0,
+                    },
+                  ],
+                }
+              }
+            >
+              <TextInput
+                allowFontScaling={true}
+                clearButtonMode="while-editing"
+                editable={true}
+                keyboardType="number-pad"
+                onChangeText={[Function]}
+                placeholder="Cedula"
+                placeholderTextColor="#86939e"
+                rejectResponderTermination={true}
+                style={
+                  Object {
+                    "alignSelf": "center",
+                    "color": "#242424",
+                    "flex": 1,
+                    "fontSize": 15,
+                    "minHeight": 40,
+                  }
+                }
+                testID="RNE__Input__text-input"
+                underlineColorAndroid="transparent"
+                value=""
+              />
+            </View>
+            <Text
+              style={
+                Object {
+                  "color": "#ff190c",
+                  "fontSize": 12,
+                  "margin": 5,
+                }
+              }
+            />
+          </View>
+        </View>
+        <Text
+          style={
+            Array [
+              Object {
+                "fontSize": 14,
+                "fontWeight": "500",
+                "paddingHorizontal": 10,
+                "textAlign": "center",
+              },
+              Object {
+                "color": "#5e6977",
+              },
+            ]
+          }
+        >
+          Debes ingresar el nombre que corresponda con tu documento de identidad perteneciente.
+        </Text>
+        <View
+          style={
+            Object {
+              "borderRadius": 3,
+              "height": 45,
+              "marginTop": 20,
+              "overflow": "hidden",
+            }
+          }
+        >
+          <View
+            accessibilityRole="button"
+            accessibilityState={
+              Object {
+                "busy": false,
+                "disabled": false,
+              }
+            }
+            accessible={true}
+            focusable={true}
+            onClick={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              Object {
+                "opacity": 1,
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "backgroundColor": "#2089dc",
+                  "borderColor": "#2089dc",
+                  "borderRadius": 3,
+                  "borderWidth": 0,
+                  "flexDirection": "row",
+                  "justifyContent": "center",
+                  "padding": 8,
+                }
+              }
+            >
+              <Text
+                style={
+                  Object {
+                    "color": "white",
+                    "fontSize": 18,
+                    "paddingVertical": 1,
+                    "textAlign": "center",
+                  }
+                }
+              >
+                Siguiente
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  </RCTScrollView>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "borderTopColor": "#bcbbc1",
+        "borderTopWidth": 1,
+        "height": 50,
+        "justifyContent": "center",
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "borderRadius": 3,
+          "overflow": "hidden",
+        }
+      }
+    >
+      <View
+        accessibilityRole="button"
+        accessibilityState={
+          Object {
+            "busy": false,
+            "disabled": false,
+          }
+        }
+        accessible={true}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "opacity": 1,
+          }
+        }
+      >
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "backgroundColor": "transparent",
+              "borderColor": "#2089dc",
+              "borderRadius": 3,
+              "borderWidth": 0,
+              "flexDirection": "row",
+              "justifyContent": "center",
+              "padding": 8,
+            }
+          }
+        >
+          <Text
+            style={
+              Object {
+                "color": "#2089dc",
+                "fontSize": 16,
+                "paddingVertical": 1,
+                "textAlign": "center",
+              }
+            }
+          >
+            Ya tienes una cuenta? Inicia Sesión
+          </Text>
+        </View>
+      </View>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`<StepOne /> se renderiza correctamente 1`] = `
+<View
+  style={
+    Object {
+      "backgroundColor": "white",
+      "flex": 1,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "transparent",
+        "borderBottomColor": "#f2f2f2",
+        "borderBottomWidth": 0,
+        "flexDirection": "row",
+        "justifyContent": "space-between",
+        "paddingHorizontal": 10,
+        "paddingVertical": 10,
+      }
+    }
+    testID="headerContainer"
+  >
+    <RNCSafeAreaView
+      edges={
+        Array [
+          "left",
+          "top",
+          "right",
+        ]
+      }
+      style={
+        Object {
+          "flexDirection": "row",
+          "width": "100%",
+        }
+      }
+    >
+      <View
+        style={
+          Object {
+            "alignItems": "flex-start",
+            "flex": 1,
+          }
+        }
+      >
+        <View
+          style={
+            Object {
+              "alignItems": "flex-start",
+              "overflow": "hidden",
+            }
+          }
+        >
+          <View
+            accessibilityLabel="back"
+            accessible={true}
+            focusable={true}
+            onClick={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+          >
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "backgroundColor": "transparent",
+                  "justifyContent": "center",
+                }
+              }
+            >
+              <Text />
+            </View>
+          </View>
+        </View>
+      </View>
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "flex": 3,
+          }
+        }
+      />
+      <View
+        style={
+          Object {
+            "alignItems": "flex-end",
+            "flex": 1,
+          }
+        }
+      />
+    </RNCSafeAreaView>
+  </View>
+  <RCTScrollView>
+    <View>
+      <View
+        style={
+          Object {
+            "flex": 1,
+            "marginTop": 15,
+            "paddingHorizontal": 18,
+          }
+        }
+      >
+        <Text
+          style={
+            Array [
+              Object {
+                "fontSize": 22,
+                "fontWeight": "500",
+              },
+              Object {
+                "color": "#2089dc",
+              },
+            ]
+          }
+        >
+          Cual es tu Nombre?
+        </Text>
+        <View
+          style={
+            Object {
+              "flexWrap": "wrap",
+              "paddingTop": 20,
+            }
+          }
+        >
+          <View
+            style={
+              Object {
+                "flexDirection": "row",
+                "width": "100%",
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "flex": 1,
+                  "paddingHorizontal": 0,
+                  "paddingRight": 5,
+                  "width": "100%",
+                }
+              }
+            >
+              <View
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "borderBottomWidth": 1,
+                    "borderColor": "rgba(0, 0, 0, 0.13)",
+                    "borderRadius": 5,
+                    "borderWidth": 1,
+                    "flexDirection": "row",
+                    "paddingLeft": 10,
+                    "transform": Array [
+                      Object {
+                        "translateX": 0,
+                      },
+                    ],
+                  }
+                }
+              >
+                <TextInput
+                  allowFontScaling={true}
+                  autoCompleteType="name"
+                  autoFocus={true}
+                  clearButtonMode="while-editing"
+                  editable={true}
+                  onChangeText={[Function]}
+                  onSubmitEditing={[Function]}
+                  placeholder="Nombre"
+                  placeholderTextColor="#86939e"
+                  rejectResponderTermination={true}
+                  returnKeyType="next"
+                  style={
+                    Object {
+                      "alignSelf": "center",
+                      "color": "#242424",
+                      "flex": 1,
+                      "fontSize": 15,
+                      "minHeight": 40,
+                    }
+                  }
+                  testID="RNE__Input__text-input"
+                  textContentType="givenName"
+                  underlineColorAndroid="transparent"
+                  value=""
+                />
+              </View>
+              <Text
+                style={
+                  Object {
+                    "color": "#ff190c",
+                    "fontSize": 12,
+                    "margin": 5,
+                  }
+                }
+              />
+            </View>
+            <View
+              style={
+                Object {
+                  "flex": 1,
+                  "paddingHorizontal": 0,
+                  "paddingLeft": 5,
+                  "width": "100%",
+                }
+              }
+            >
+              <View
+                style={
+                  Object {
+                    "alignItems": "center",
+                    "borderBottomWidth": 1,
+                    "borderColor": "rgba(0, 0, 0, 0.13)",
+                    "borderRadius": 5,
+                    "borderWidth": 1,
+                    "flexDirection": "row",
+                    "paddingLeft": 10,
+                    "transform": Array [
+                      Object {
+                        "translateX": 0,
+                      },
+                    ],
+                  }
+                }
+              >
+                <TextInput
+                  allowFontScaling={true}
+                  autoCompleteType="name"
+                  clearButtonMode="while-editing"
+                  editable={true}
+                  onChangeText={[Function]}
+                  onSubmitEditing={[Function]}
+                  placeholder="Apellido"
+                  placeholderTextColor="#86939e"
+                  rejectResponderTermination={true}
+                  returnKeyType="next"
+                  style={
+                    Object {
+                      "alignSelf": "center",
+                      "color": "#242424",
+                      "flex": 1,
+                      "fontSize": 15,
+                      "minHeight": 40,
+                    }
+                  }
+                  testID="RNE__Input__text-input"
+                  textContentType="familyName"
+                  underlineColorAndroid="transparent"
+                  value=""
+                />
+              </View>
+              <Text
+                style={
+                  Object {
+                    "color": "#ff190c",
+                    "fontSize": 12,
+                    "margin": 5,
+                  }
+                }
+              />
+            </View>
+          </View>
+          <View
+            style={
+              Object {
+                "flex": 0,
+                "paddingHorizontal": 0,
+                "width": "100%",
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "borderBottomWidth": 1,
+                  "borderColor": "rgba(0, 0, 0, 0.13)",
+                  "borderRadius": 5,
+                  "borderWidth": 1,
+                  "flexDirection": "row",
+                  "paddingLeft": 10,
+                  "transform": Array [
+                    Object {
+                      "translateX": 0,
+                    },
+                  ],
+                }
+              }
+            >
+              <TextInput
+                allowFontScaling={true}
+                clearButtonMode="while-editing"
+                editable={true}
+                keyboardType="number-pad"
+                onChangeText={[Function]}
+                placeholder="Cedula"
+                placeholderTextColor="#86939e"
+                rejectResponderTermination={true}
+                style={
+                  Object {
+                    "alignSelf": "center",
+                    "color": "#242424",
+                    "flex": 1,
+                    "fontSize": 15,
+                    "minHeight": 40,
+                  }
+                }
+                testID="RNE__Input__text-input"
+                underlineColorAndroid="transparent"
+                value=""
+              />
+            </View>
+            <Text
+              style={
+                Object {
+                  "color": "#ff190c",
+                  "fontSize": 12,
+                  "margin": 5,
+                }
+              }
+            />
+          </View>
+        </View>
+        <Text
+          style={
+            Array [
+              Object {
+                "fontSize": 14,
+                "fontWeight": "500",
+                "paddingHorizontal": 10,
+                "textAlign": "center",
+              },
+              Object {
+                "color": "#5e6977",
+              },
+            ]
+          }
+        >
+          Debes ingresar el nombre que corresponda con tu documento de identidad perteneciente.
+        </Text>
+        <View
+          style={
+            Object {
+              "borderRadius": 3,
+              "height": 45,
+              "marginTop": 20,
+              "overflow": "hidden",
+            }
+          }
+        >
+          <View
+            accessibilityRole="button"
+            accessibilityState={
+              Object {
+                "busy": false,
+                "disabled": false,
+              }
+            }
+            accessible={true}
+            focusable={true}
+            onClick={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              Object {
+                "opacity": 1,
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "backgroundColor": "#2089dc",
+                  "borderColor": "#2089dc",
+                  "borderRadius": 3,
+                  "borderWidth": 0,
+                  "flexDirection": "row",
+                  "justifyContent": "center",
+                  "padding": 8,
+                }
+              }
+            >
+              <Text
+                style={
+                  Object {
+                    "color": "white",
+                    "fontSize": 18,
+                    "paddingVertical": 1,
+                    "textAlign": "center",
+                  }
+                }
+              >
+                Siguiente
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  </RCTScrollView>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "borderTopColor": "#bcbbc1",
+        "borderTopWidth": 1,
+        "height": 50,
+        "justifyContent": "center",
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "borderRadius": 3,
+          "overflow": "hidden",
+        }
+      }
+    >
+      <View
+        accessibilityRole="button"
+        accessibilityState={
+          Object {
+            "busy": false,
+            "disabled": false,
+          }
+        }
+        accessible={true}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "opacity": 1,
+          }
+        }
+      >
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "backgroundColor": "transparent",
+              "borderColor": "#2089dc",
+              "borderRadius": 3,
+              "borderWidth": 0,
+              "flexDirection": "row",
+              "justifyContent": "center",
+              "padding": 8,
+            }
+          }
+        >
+          <Text
+            style={
+              Object {
+                "color": "#2089dc",
+                "fontSize": 16,
+                "paddingVertical": 1,
+                "textAlign": "center",
+              }
+            }
+          >
+            Ya tienes una cuenta? Inicia Sesión
+          </Text>
+        </View>
+      </View>
+    </View>
+  </View>
+</View>
+`;
