@@ -14,12 +14,6 @@ jest.mock('../../../hooks/useSignupState', () => {
   }
 })
 
-// jest.mock('../../../hooks/useSignupState', () =>
-//   jest.fn(() => ({
-//     current: {},
-//   }))
-// )
-
 describe('<StepOne />', () => {
   const navigation = useNavigation() as StackNavigationProp<SignUpStackParamList, 'StepOne'>
 

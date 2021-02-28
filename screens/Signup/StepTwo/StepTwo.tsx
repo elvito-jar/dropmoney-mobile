@@ -34,6 +34,7 @@ const StepTwo: React.FC<Props> = ({ navigation }) => {
         <Text style={[Styles.title, { color: theme.colors?.primary }]}>Cual es tu Fecha de Nacimiento?</Text>
         <Button
           raised
+          accessibilityLabel='Date field'
           type='outline'
           containerStyle={Styles.dateContainerBtn}
           buttonStyle={[Styles.dateBtn, { borderColor: theme.colors?.grey3 }]}
