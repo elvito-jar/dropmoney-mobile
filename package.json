@@ -13,7 +13,10 @@
     "setupFiles": [
       "./__mocks__/setupNavigation.ts"
     ],
-    "setupFilesAfterEnv": ["@testing-library/jest-native/extend-expect", "./__mocks__/setup.ts"],
+    "setupFilesAfterEnv": [
+      "@testing-library/jest-native/extend-expect",
+      "./__mocks__/setup.ts"
+    ],
     "transformIgnorePatterns": [
       "node_modules/(?!(jest-)?react-native|react-clone-referenced-element|@react-native-community|expo(nent)?|@expo(nent)?/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|@sentry/.*)"
     ],
@@ -72,6 +75,7 @@
     "@types/jest": "^26.0.20",
     "@types/react": "~16.9.35",
     "@types/react-native": "~0.63.2",
+    "@types/react-native-keyboard-spacer": "^0.4.1",
     "@types/react-test-renderer": "^17.0.1",
     "eslint": "5.16.0",
     "eslint-config-prettier": "^7.2.0",

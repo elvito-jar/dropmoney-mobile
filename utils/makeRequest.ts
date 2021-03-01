@@ -1,4 +1,4 @@
-type RequestResponse = [res: any | null, err: FetchError | null]
+export type RequestResponse = [res: any | null, err: FetchError | null]
 
 type Cause = {
   message: string
@@ -7,11 +7,12 @@ type Cause = {
 export class FetchError extends Error {
   name: string
   causes: Cause[]
-  constructor(message: string, causes: Cause[]) {
+  data?: any
+  constructor(message: string, causes: Cause[], data = {}) {
     super(message)
-    Error.captureStackTrace(this, FetchError)
     this.name = 'FetchError'
     this.causes = causes
+    this.data = data
   }
 }
 
@@ -35,7 +36,7 @@ export default async (url: RequestInfo, config: RequestInit = {}): Promise<Reque
       const causes = data?.causes ?? []
       const causesCheck = causes.length > 0 ? 'Check' : 'No Check'
       const message = data?.message ?? `Error Fetch: ${data.message}. Causes: ${causesCheck}`
-      return [null, new FetchError(message, causes)]
+      return [null, new FetchError(message, causes, data)]
     }
   } catch (err) {
     return [null, err]

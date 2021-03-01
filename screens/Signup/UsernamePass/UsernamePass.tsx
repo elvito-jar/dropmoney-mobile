@@ -4,9 +4,11 @@ import { Controller, useForm } from 'react-hook-form'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { Button, Input } from 'react-native-elements'
 import AuthLayout from '../../../components/AuthLayout'
+import { URL } from '../../../constants'
 import useSignupState from '../../../hooks/useSignupState'
 import useTheme from '../../../hooks/useTheme'
 import { SignUpStackParamList } from '../../../types'
+import makeRequest from '../../../utils/makeRequest'
 
 type Props = {
   navigation: StackNavigationProp<SignUpStackParamList, 'UsernamePass'>
@@ -20,16 +22,31 @@ type InputFields = {
 
 const UsernamePass: React.FC<Props> = (props) => {
   const { theme } = useTheme()
-  const { control, formState, handleSubmit } = useForm<InputFields>({ mode: 'onSubmit', criteriaMode: 'all' })
-  const { errors } = formState
+  const { control, formState, handleSubmit, setError, clearErrors } = useForm<InputFields>({
+    mode: 'onSubmit',
+    criteriaMode: 'all',
+  })
   const [loading, setLoading] = React.useState<boolean>(false)
   const password = React.useRef<Input>(undefined!)
   const state = useSignupState()
   const [showPassword, setShowPassword] = React.useState<boolean>(false)
+  const [, updateState] = React.useState<any>()
 
-  const submit = (fields: InputFields) => {
-    props.navigation.navigate('StepOne')
+  const forceUpdate = React.useCallback(() => updateState({}), [])
+
+  const submit = async (fields: InputFields) => {
     state.current = { ...state.current, ...fields }
+    const [res, err] = await makeRequest(`${URL}/auth/check-register?username=${fields.username}`)
+    if (err) {
+      if (err.name === 'FetchError') {
+        clearErrors('username')
+        return setError('username', {
+          type: 'validate',
+          message: 'Este usuario ya esta ocupado.',
+        })
+      }
+    }
+    props.navigation.navigate('StepOne')
   }
 
   return (
@@ -50,8 +67,8 @@ const UsernamePass: React.FC<Props> = (props) => {
             }}
             render={({ onChange, value }) => (
               <Input
-                errorMessage={errors.username?.message}
-                errorStyle={[Styles.errorMessage, { marginBottom: errors.username ? 10 : 0 }]}
+                errorMessage={formState.errors.username?.message}
+                errorStyle={[Styles.errorMessage, { marginBottom: formState.errors.username ? 10 : 0 }]}
                 placeholder='Usuario'
                 textContentType='username'
                 autoFocus
@@ -81,8 +98,8 @@ const UsernamePass: React.FC<Props> = (props) => {
             }}
             render={({ onChange, value }) => (
               <Input
-                errorMessage={errors.password?.message}
-                errorStyle={[Styles.errorMessage, { marginBottom: errors.password ? 10 : 0 }]}
+                errorMessage={formState.errors.password?.message}
+                errorStyle={[Styles.errorMessage, { marginBottom: formState.errors.password ? 10 : 0 }]}
                 ref={password}
                 placeholder='Contraseña'
                 disabled={loading}
