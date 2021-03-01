@@ -3,7 +3,17 @@ import { StackNavigationProp } from '@react-navigation/stack'
 import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import React from 'react'
 import { SignUpStackParamList } from '../../../types'
+import * as makeRequest from '../../../utils/makeRequest'
 import StepOne from './StepOne'
+
+jest.mock('../../../utils/makeRequest', () => {
+  const actual = jest.requireActual('../../../utils/makeRequest')
+  return {
+    ...actual,
+    __esModule: true,
+    default: jest.fn(),
+  }
+})
 
 jest.mock('../../../hooks/useSignupState', () => {
   const actual = jest.requireActual('../../../hooks/useSignupState')
@@ -32,7 +42,20 @@ describe('<StepOne />', () => {
     })
   })
 
-  it('cedula ya registrada', async () => {})
+  it('cedula ya registrada', async () => {
+    const mockedMakeRequest = jest
+      .spyOn(makeRequest, 'default')
+      .mockReturnValueOnce(Promise.resolve([null, new makeRequest.FetchError('cedula ya ocupada', [])]))
+
+    const { getByText, getByPlaceholderText } = render(<StepOne navigation={navigation} />)
+    fireEvent.changeText(getByPlaceholderText('Nombre'), 'nombre')
+    fireEvent.changeText(getByPlaceholderText('Apellido'), 'apellido')
+    fireEvent.changeText(getByPlaceholderText('Cedula'), '26638992')
+    fireEvent.press(getByText('Siguiente'))
+    await waitFor(() => {
+      expect(navigation.navigate).toBeCalledWith('StepTwo')
+    })
+  })
 
   it('campos validos verificar submit', async () => {
     const { getByText, getByPlaceholderText } = render(<StepOne navigation={navigation} />)

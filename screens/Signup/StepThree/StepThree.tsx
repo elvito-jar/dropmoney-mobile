@@ -20,7 +20,7 @@ type InputFields = {
 }
 
 const StepThree: React.FC<Props> = ({ navigation }) => {
-  const { control, handleSubmit } = useForm<InputFields>()
+  const { control, handleSubmit, formState } = useForm<InputFields>()
   const [venezuelaState, setVenezuelaState] = React.useState<VenezuelaState>('Zulia')
   const { theme } = useTheme()
   const [showSelect, setShowSelect] = React.useState<boolean>(false)
@@ -50,11 +50,12 @@ const StepThree: React.FC<Props> = ({ navigation }) => {
           <Controller
             control={control}
             name='address'
-            rules={{ required: true }}
+            rules={{ required: { value: true, message: 'Este campo es obligatorio.' } }}
             defaultValue=''
             render={({ onChange, value }) => (
               <Input
                 autoFocus
+                errorMessage={formState.errors.address?.message}
                 textContentType='fullStreetAddress'
                 autoCompleteType='street-address'
                 placeholder='Dirección de Calle'
@@ -72,12 +73,13 @@ const StepThree: React.FC<Props> = ({ navigation }) => {
           <Controller
             control={control}
             name='zipCode'
-            rules={{ required: true }}
+            rules={{ required: { value: true, message: 'Este campo es obligatorio.' } }}
             defaultValue=''
             render={({ onChange, value }) => (
               <Input
                 ref={input2}
                 keyboardType='number-pad'
+                errorMessage={formState.errors.zipCode?.message}
                 textContentType='fullStreetAddress'
                 autoCompleteType='street-address'
                 placeholder='Codigo Postal'
@@ -95,13 +97,14 @@ const StepThree: React.FC<Props> = ({ navigation }) => {
           <Controller
             control={control}
             name='city'
-            rules={{ required: true }}
+            rules={{ required: { value: true, message: 'Este campo es obligatorio.' } }}
             defaultValue=''
             render={({ onChange, value }) => (
               <Input
                 ref={input3}
                 textContentType='fullStreetAddress'
                 autoCompleteType='street-address'
+                errorMessage={formState.errors.city?.message}
                 placeholder='Ciudad'
                 clearButtonMode='while-editing'
                 inputContainerStyle={[Styles.inputInner]}

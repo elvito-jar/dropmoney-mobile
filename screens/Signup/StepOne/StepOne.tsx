@@ -4,9 +4,11 @@ import { Controller, useForm } from 'react-hook-form'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { Button, Input } from 'react-native-elements'
 import AuthLayout from '../../../components/AuthLayout'
+import { URL } from '../../../constants'
 import useSignupState from '../../../hooks/useSignupState'
 import useTheme from '../../../hooks/useTheme'
 import { SignUpStackParamList } from '../../../types'
+import makeRequest from '../../../utils/makeRequest'
 
 type Props = {
   navigation: StackNavigationProp<SignUpStackParamList, 'StepOne'>
@@ -24,24 +26,26 @@ const StepOne: React.FC<Props> = ({ navigation }) => {
   const input3 = React.useRef<Input>(undefined!)
   const [loading, setLoading] = React.useState<boolean>(false)
   const { theme } = useTheme()
-  const { control, handleSubmit, errors } = useForm<InputFields>()
+  const { control, handleSubmit, formState, clearErrors, setError } = useForm<InputFields>()
   const state = useSignupState()
 
-  const submit = (fields: InputFields) => {
-    navigation.navigate('StepTwo')
+  const submit = async (fields: InputFields) => {
+    setLoading(true)
+    state.current = { ...state.current, ...fields }
+    const [, err] = await makeRequest(`${URL}/auth/check-register?ci=${fields.cedula}`)
+    if (err) {
+      if ((err.name = 'FetchError')) {
+        clearErrors('cedula')
+        setError('cedula', {
+          type: 'validate',
+          message: 'Esta cedula ya esta siendo utilizada por otro usuario.',
+        })
+      }
+    } else {
+      navigation.navigate('StepTwo')
+    }
+    setLoading(false)
   }
-
-  React.useEffect(() => {
-    if (errors.name) {
-      input1.current.shake()
-    }
-    if (errors.lastName) {
-      input2.current.shake()
-    }
-    if (errors.cedula) {
-      input3.current.shake()
-    }
-  }, [errors])
 
   return (
     <AuthLayout>
@@ -52,7 +56,7 @@ const StepOne: React.FC<Props> = ({ navigation }) => {
             <View style={{ flexDirection: 'row', width: '100%' }}>
               <Controller
                 control={control}
-                rules={{ required: true }}
+                rules={{ required: { value: true, message: 'Este campo es obligatorio.' } }}
                 name='name'
                 defaultValue=''
                 render={({ onChange, value }) => (
@@ -60,13 +64,14 @@ const StepOne: React.FC<Props> = ({ navigation }) => {
                     disabled={loading}
                     ref={input1}
                     autoFocus
+                    errorMessage={formState.errors.name?.message}
                     textContentType='givenName'
                     autoCompleteType='name'
                     placeholder='Nombre'
                     clearButtonMode='while-editing'
                     inputContainerStyle={[
                       Styles.inputInner,
-                      { borderColor: errors.name ? 'red' : 'rgba(0, 0, 0, 0.13)' },
+                      { borderColor: formState.errors.name ? 'red' : 'rgba(0, 0, 0, 0.13)' },
                     ]}
                     inputStyle={{ fontSize: 15 }}
                     containerStyle={[Styles.inputContainer, { paddingRight: 5 }]}
@@ -81,18 +86,19 @@ const StepOne: React.FC<Props> = ({ navigation }) => {
                 control={control}
                 name='lastName'
                 defaultValue=''
-                rules={{ required: true }}
+                rules={{ required: { value: true, message: 'Este campo es obligatorio.' } }}
                 render={({ onChange, value }) => (
                   <Input
                     disabled={loading}
                     textContentType='familyName'
                     autoCompleteType='name'
+                    errorMessage={formState.errors.lastName?.message}
                     ref={input2}
                     clearButtonMode='while-editing'
                     placeholder='Apellido'
                     inputContainerStyle={[
                       Styles.inputInner,
-                      { borderColor: errors.lastName ? 'red' : 'rgba(0, 0, 0, 0.13)' },
+                      { borderColor: formState.errors.lastName ? 'red' : 'rgba(0, 0, 0, 0.13)' },
                     ]}
                     inputStyle={{ fontSize: 15 }}
                     containerStyle={[Styles.inputContainer, { paddingLeft: 5 }]}
@@ -107,18 +113,19 @@ const StepOne: React.FC<Props> = ({ navigation }) => {
             <Controller
               control={control}
               name='cedula'
-              rules={{ required: true }}
+              rules={{ required: { value: true, message: 'Este campo es obligatorio.' } }}
               defaultValue=''
               render={({ onChange, value }) => (
                 <Input
                   ref={input3}
                   disabled={loading}
+                  errorMessage={formState.errors.cedula?.message}
                   keyboardType='number-pad'
                   clearButtonMode='while-editing'
                   placeholder='Cedula'
                   inputContainerStyle={[
                     Styles.inputInner,
-                    { borderColor: errors.cedula ? 'red' : 'rgba(0, 0, 0, 0.13)' },
+                    { borderColor: formState.errors.cedula ? 'red' : 'rgba(0, 0, 0, 0.13)' },
                   ]}
                   inputStyle={{ fontSize: 15 }}
                   containerStyle={[Styles.inputContainer, { width: '100%', flex: 0 }]}
