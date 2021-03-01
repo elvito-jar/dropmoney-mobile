@@ -1,0 +1,471 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<StepFour /> se renderiza correctamente 1`] = `
+<View
+  style={
+    Object {
+      "backgroundColor": "white",
+      "flex": 1,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "transparent",
+        "borderBottomColor": "#f2f2f2",
+        "borderBottomWidth": 0,
+        "flexDirection": "row",
+        "justifyContent": "space-between",
+        "paddingHorizontal": 10,
+        "paddingVertical": 10,
+      }
+    }
+    testID="headerContainer"
+  >
+    <RNCSafeAreaView
+      edges={
+        Array [
+          "left",
+          "top",
+          "right",
+        ]
+      }
+      style={
+        Object {
+          "flexDirection": "row",
+          "width": "100%",
+        }
+      }
+    >
+      <View
+        style={
+          Object {
+            "alignItems": "flex-start",
+            "flex": 1,
+          }
+        }
+      >
+        <View
+          style={
+            Object {
+              "alignItems": "flex-start",
+              "overflow": "hidden",
+            }
+          }
+        >
+          <View
+            accessibilityLabel="back"
+            accessible={true}
+            focusable={true}
+            onClick={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+          >
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "backgroundColor": "transparent",
+                  "justifyContent": "center",
+                }
+              }
+            >
+              <Text />
+            </View>
+          </View>
+        </View>
+      </View>
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "flex": 3,
+          }
+        }
+      />
+      <View
+        style={
+          Object {
+            "alignItems": "flex-end",
+            "flex": 1,
+          }
+        }
+      />
+    </RNCSafeAreaView>
+  </View>
+  <RCTScrollView
+    style={
+      Object {
+        "flex": 1,
+        "paddingHorizontal": 10,
+        "paddingTop": 20,
+      }
+    }
+  >
+    <View>
+      <Text
+        style={
+          Array [
+            Object {
+              "fontSize": 20,
+              "fontWeight": "500",
+              "marginBottom": 20,
+              "paddingLeft": 10,
+            },
+            Object {
+              "color": "#2089dc",
+            },
+          ]
+        }
+      >
+        Como podriamos contactarte?
+      </Text>
+      <View
+        style={
+          Object {
+            "flexDirection": "row",
+            "flexWrap": "wrap",
+          }
+        }
+      >
+        <View
+          style={
+            Object {
+              "flex": 1,
+              "paddingHorizontal": 10,
+              "width": "100%",
+            }
+          }
+        >
+          <View
+            style={
+              Object {
+                "alignItems": "center",
+                "borderBottomWidth": 1,
+                "borderColor": "rgba(0, 0, 0, .1)",
+                "borderRadius": 5,
+                "borderWidth": 1,
+                "flexDirection": "row",
+                "paddingLeft": 10,
+                "transform": Array [
+                  Object {
+                    "translateX": 0,
+                  },
+                ],
+              }
+            }
+          >
+            <TextInput
+              allowFontScaling={true}
+              autoCompleteType="email"
+              autoFocus={true}
+              clearButtonMode="while-editing"
+              editable={true}
+              keyboardType="email-address"
+              onChangeText={[Function]}
+              onSubmitEditing={[Function]}
+              placeholder="Correo electronico"
+              placeholderTextColor="#86939e"
+              rejectResponderTermination={true}
+              returnKeyType="next"
+              style={
+                Object {
+                  "alignSelf": "center",
+                  "color": "#242424",
+                  "flex": 1,
+                  "fontSize": 15,
+                  "minHeight": 40,
+                }
+              }
+              testID="RNE__Input__text-input"
+              textContentType="emailAddress"
+              underlineColorAndroid="transparent"
+              value=""
+            />
+          </View>
+          <Text
+            style={
+              Object {
+                "color": "#ff190c",
+                "fontSize": 12,
+                "margin": 5,
+                "marginBottom": 0,
+              }
+            }
+          />
+        </View>
+        <View
+          style={
+            Array [
+              Object {
+                "flexDirection": "row",
+                "flexWrap": "wrap",
+              },
+              Object {
+                "width": "100%",
+              },
+            ]
+          }
+        >
+          <View
+            style={
+              Array [
+                Object {
+                  "alignItems": "center",
+                  "borderBottomLeftRadius": 5,
+                  "borderColor": "rgba(0, 0, 0, .1)",
+                  "borderRightWidth": 0,
+                  "borderTopLeftRadius": 5,
+                  "borderWidth": 1,
+                  "height": 42,
+                  "justifyContent": "center",
+                  "marginLeft": 10,
+                  "width": 50,
+                },
+                Object {
+                  "backgroundColor": "#e1e8ee",
+                },
+              ]
+            }
+          >
+            <Text
+              style={
+                Object {
+                  "color": "#5e6977",
+                }
+              }
+            >
+              +58
+            </Text>
+          </View>
+          <View
+            style={
+              Object {
+                "flex": 1,
+                "paddingHorizontal": 10,
+                "paddingLeft": 0,
+                "width": "100%",
+              }
+            }
+          >
+            <View
+              style={
+                Object {
+                  "alignItems": "center",
+                  "borderBottomLeftRadius": 0,
+                  "borderBottomWidth": 1,
+                  "borderColor": "rgba(0, 0, 0, .1)",
+                  "borderRadius": 5,
+                  "borderTopLeftRadius": 0,
+                  "borderWidth": 1,
+                  "flexDirection": "row",
+                  "paddingLeft": 10,
+                  "transform": Array [
+                    Object {
+                      "translateX": 0,
+                    },
+                  ],
+                }
+              }
+            >
+              <TextInput
+                allowFontScaling={true}
+                autoCompleteType="tel"
+                clearButtonMode="while-editing"
+                editable={true}
+                keyboardType="number-pad"
+                maxLength={11}
+                onChangeText={[Function]}
+                onSubmitEditing={[Function]}
+                placeholder="Numero Telefonico"
+                placeholderTextColor="#86939e"
+                rejectResponderTermination={true}
+                returnKeyType="done"
+                style={
+                  Object {
+                    "alignSelf": "center",
+                    "color": "#242424",
+                    "flex": 1,
+                    "fontSize": 15,
+                    "minHeight": 40,
+                  }
+                }
+                testID="RNE__Input__text-input"
+                textContentType="telephoneNumber"
+                underlineColorAndroid="transparent"
+                value=""
+              />
+            </View>
+            <Text
+              style={
+                Object {
+                  "color": "#ff190c",
+                  "display": "none",
+                  "fontSize": 12,
+                  "margin": 5,
+                }
+              }
+            />
+          </View>
+        </View>
+      </View>
+      <Text
+        style={
+          Array [
+            Object {
+              "marginBottom": 10,
+              "marginTop": 5,
+              "paddingHorizontal": 10,
+              "paddingVertical": 5,
+            },
+            Object {
+              "color": "#43484d",
+            },
+          ]
+        }
+      >
+        Te enviaremos un correo y código de verificación al respectivo correo y número telefónico escrito aquí.
+      </Text>
+      <View
+        style={
+          Object {
+            "borderRadius": 3,
+            "overflow": "hidden",
+            "paddingHorizontal": 10,
+          }
+        }
+      >
+        <View
+          accessibilityRole="button"
+          accessibilityState={
+            Object {
+              "busy": false,
+              "disabled": false,
+            }
+          }
+          accessible={true}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            Object {
+              "opacity": 1,
+            }
+          }
+        >
+          <View
+            style={
+              Object {
+                "alignItems": "center",
+                "backgroundColor": "#2089dc",
+                "borderColor": "#2089dc",
+                "borderRadius": 3,
+                "borderWidth": 0,
+                "flexDirection": "row",
+                "justifyContent": "center",
+                "padding": 8,
+              }
+            }
+          >
+            <Text
+              style={
+                Object {
+                  "color": "white",
+                  "fontSize": 18,
+                  "paddingVertical": 1,
+                  "textAlign": "center",
+                }
+              }
+            >
+              Verificar Celular
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+  </RCTScrollView>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "borderTopColor": "#bcbbc1",
+        "borderTopWidth": 1,
+        "height": 50,
+        "justifyContent": "center",
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "borderRadius": 3,
+          "overflow": "hidden",
+        }
+      }
+    >
+      <View
+        accessibilityRole="button"
+        accessibilityState={
+          Object {
+            "busy": false,
+            "disabled": false,
+          }
+        }
+        accessible={true}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "opacity": 1,
+          }
+        }
+      >
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "backgroundColor": "transparent",
+              "borderColor": "#2089dc",
+              "borderRadius": 3,
+              "borderWidth": 0,
+              "flexDirection": "row",
+              "justifyContent": "center",
+              "padding": 8,
+            }
+          }
+        >
+          <Text
+            style={
+              Object {
+                "color": "#2089dc",
+                "fontSize": 16,
+                "paddingVertical": 1,
+                "textAlign": "center",
+              }
+            }
+          >
+            Ya tienes una cuenta? Inicia Sesión
+          </Text>
+        </View>
+      </View>
+    </View>
+  </View>
+</View>
+`;

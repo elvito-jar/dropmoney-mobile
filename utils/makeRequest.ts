@@ -4,7 +4,7 @@ type Cause = {
   message: string
 }
 
-class FetchError extends Error {
+export class FetchError extends Error {
   name: string
   causes: Cause[]
   constructor(message: string, causes: Cause[]) {

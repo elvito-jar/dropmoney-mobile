@@ -13,8 +13,14 @@ import useTheme from '../../../hooks/useTheme'
 import { SignUpStackParamList } from '../../../types'
 import makeRequest from '../../../utils/makeRequest'
 
+Object.defineProperty(global, 'FormData', {
+  value: () => ({ append: jest.fn() }),
+})
+
+// global.FormData = () => ({ append: jest.fn() })
+
 type Props = {
-  navigation: StackNavigationProp<SignUpStackParamList, 'StepThree'>
+  navigation: StackNavigationProp<SignUpStackParamList, 'StepFour'>
 }
 
 type InputFields = {
