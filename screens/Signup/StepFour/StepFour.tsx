@@ -7,17 +7,11 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import Toast from 'react-native-easy-toast'
 import { Button, Input } from 'react-native-elements'
 import AuthLayout from '../../../components/AuthLayout'
-import ToastMessage from '../../../components/ToastMessage'
+import { URL } from '../../../constants'
 import useSignupState from '../../../hooks/useSignupState'
 import useTheme from '../../../hooks/useTheme'
 import { SignUpStackParamList } from '../../../types'
 import makeRequest from '../../../utils/makeRequest'
-
-Object.defineProperty(global, 'FormData', {
-  value: () => ({ append: jest.fn() }),
-})
-
-// global.FormData = () => ({ append: jest.fn() })
 
 type Props = {
   navigation: StackNavigationProp<SignUpStackParamList, 'StepFour'>
@@ -30,13 +24,12 @@ type InputFields = {
 
 const StepFour: React.FC<Props> = ({ navigation }) => {
   const { theme } = useTheme()
-  const { control, handleSubmit, formState } = useForm<InputFields>({ mode: 'onSubmit' })
+  const { control, handleSubmit, formState, clearErrors, setError } = useForm<InputFields>({ mode: 'onSubmit' })
   const toast = React.useRef<Toast | null>(undefined!)
   const [loading, setLoading] = React.useState<boolean>(false)
   const input2 = React.useRef<Input>(undefined!)
   const state = useSignupState()
   const Formatter = React.useRef(new AsYouType('VE'))
-  const { errors } = formState
 
   const normalizeTel = (value: string) => {
     if (value[0] === '0') return ''
@@ -57,22 +50,19 @@ const StepFour: React.FC<Props> = ({ navigation }) => {
   const submit = async (fields: InputFields) => {
     setLoading(true)
     state.current = { ...state.current, ...fields }
-    const newValidationCode = (Math.floor(Math.random() * 10000) + 10000).toString().substring(1)
+    // const newValidationCode = (Math.floor(Math.random() * 10000) + 10000).toString().substring(1)
+    const newValidationCode = '7447'
     await AsyncStorage.setItem('@phoneNumber_codeValidation', newValidationCode)
-    const formData = new FormData()
-    formData.append('code', newValidationCode)
-    const config: RequestInit = {
-      headers: { 'Content-Type': 'multipart/form-data' },
-      method: 'POST',
-      body: formData,
+    const [, errValidateEmail] = await makeRequest(`${URL}/auth/check-register?email=${fields.email}`)
+    if (errValidateEmail) {
+      if (errValidateEmail.name === 'FetchError') {
+        clearErrors('email')
+        setLoading(false)
+        return setError('email', { type: 'validate', message: 'Este email ya esta siendo utilizado.' })
+      }
     }
-    const [, err] = await makeRequest('http://localhost:5999/auth/phoneValidation', config)
-    if (err) {
-      toast.current?.show(<ToastMessage message='Ha ocurrido un error enviando el mensaje. Intentalo de nuevo.' />)
-    } else {
-      navigation.navigate('StepFive')
-    }
-    return setLoading(false)
+    navigation.navigate('StepFive')
+    setLoading(false)
   }
 
   const emailRegex = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/g
@@ -93,8 +83,8 @@ const StepFour: React.FC<Props> = ({ navigation }) => {
               }}
               render={({ onChange, value }) => (
                 <Input
-                  errorMessage={errors.email?.message}
-                  errorStyle={{ marginBottom: errors.email?.message ? 10 : 0 }}
+                  errorMessage={formState.errors.email?.message}
+                  errorStyle={{ marginBottom: formState.errors.email?.message ? 10 : 0 }}
                   disabled={loading}
                   placeholder='Correo electronico'
                   autoFocus
@@ -106,7 +96,7 @@ const StepFour: React.FC<Props> = ({ navigation }) => {
                   inputStyle={{ fontSize: 15 }}
                   value={value}
                   keyboardType='email-address'
-                  onChangeText={(value) => onChange(value)}
+                  onChangeText={onChange}
                   returnKeyType='next'
                   onSubmitEditing={() => input2.current.focus()}
                 />
@@ -150,8 +140,8 @@ const StepFour: React.FC<Props> = ({ navigation }) => {
                   />
                 )}
               />
-              {errors.phoneNumber?.message && (
-                <Text style={[Styles.errorPhone]}>{errors.phoneNumber?.message || ''}</Text>
+              {formState.errors.phoneNumber?.message && (
+                <Text style={[Styles.errorPhone]}>{formState.errors.phoneNumber?.message || ''}</Text>
               )}
             </View>
           </View>

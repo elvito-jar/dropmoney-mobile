@@ -23,6 +23,10 @@ jest.mock('../../../hooks/useSignupState', () => ({
   default: jest.fn().mockReturnValue({ current: {} }),
 }))
 
+Object.defineProperty(global, 'FormData', {
+  value: () => ({ append: jest.fn() }),
+})
+
 describe('<StepFour />', () => {
   const navigation = useNavigation() as StackNavigationProp<SignUpStackParamList, 'StepFour'>
 
