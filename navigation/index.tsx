@@ -4,12 +4,11 @@ import * as React from 'react'
 import { ColorSchemeName } from 'react-native'
 import { ThemeProvider } from 'react-native-elements'
 import { darkTheme, lightTheme } from '../constants/theme'
+import { AuthContext, useAuth } from '../hooks/useAuth'
 import LoginScreen from '../screens/LoginScreen'
-import NotFoundScreen from '../screens/NotFoundScreen'
 import Presentation from '../screens/Presentation'
-// import SignUpScreen from '../screens/SignUpScreen';
 import { RootStackParamList } from '../types'
-// import BottomTabNavigator from './BottomTabNavigator';
+import BottomTabNavigator from './BottomTabNavigator'
 // import LinkingConfiguration from './LinkingConfiguration';
 import SignupNavigator from './SignupNavigator'
 
@@ -21,7 +20,9 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
       // linking={LinkingConfiguration}
       theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <ThemeProvider theme={colorScheme === 'dark' ? darkTheme : lightTheme}>
-        <RootNavigator />
+        <AuthContext>
+          <RootNavigator />
+        </AuthContext>
       </ThemeProvider>
     </NavigationContainer>
   )
@@ -32,13 +33,22 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
 const Stack = createStackNavigator<RootStackParamList>()
 
 function RootNavigator() {
+  const { state } = useAuth()
+
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      {/* <Stack.Screen name="Root" component={BottomTabNavigator} /> */}
-      <Stack.Screen name='Presentation' component={Presentation} />
-      <Stack.Screen name='Login' component={LoginScreen} />
-      <Stack.Screen name='SignUp' component={SignupNavigator} />
-      <Stack.Screen name='NotFound' component={NotFoundScreen} options={{ title: 'Oops!' }} />
+      {state.userToken === null ? (
+        <>
+          <Stack.Screen name='Presentation' component={Presentation} />
+          <Stack.Screen name='Login' component={LoginScreen} />
+          <Stack.Screen name='SignUp' component={SignupNavigator} />
+        </>
+      ) : (
+        <>
+          <Stack.Screen name='Root' component={BottomTabNavigator} />
+        </>
+      )}
+      {/* // <Stack.Screen name='NotFound' component={NotFoundScreen} options={{ title: 'Oops!' }} /> */}
     </Stack.Navigator>
   )
 }

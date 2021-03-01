@@ -1,10 +1,13 @@
 import { StackNavigationProp } from '@react-navigation/stack'
 import React from 'react'
 import { Controller, useForm } from 'react-hook-form'
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Keyboard, ScrollView, StyleSheet, Text, View } from 'react-native'
+import Toast from 'react-native-easy-toast'
 import { Button, Header, Input as RefInput } from 'react-native-elements'
 import KeyboardSpacer from 'react-native-keyboard-spacer'
 import Input from '../../components/Input'
+import ToastMessage from '../../components/ToastMessage'
+import { useAuth } from '../../hooks/useAuth'
 import useTheme from '../../hooks/useTheme'
 import { RootStackParamList } from '../../types'
 
@@ -13,19 +16,34 @@ type Props = {
 }
 
 type InputFields = {
-  username: string
+  email: string
   password: string
 }
 
 const LoginScreen: React.FC<Props> = ({ navigation }) => {
   const { control, handleSubmit } = useForm<InputFields>()
   const { theme } = useTheme()
+  const { signin } = useAuth()
+  const toast = React.useRef<Toast>(undefined!)
   const [loading, setLoading] = React.useState<boolean>(false)
   const password = React.useRef<RefInput>(undefined!)
 
-  const submit = (fields: InputFields) => {
+  const showToast = (message: string) => {
+    toast.current?.show(<ToastMessage message={message} />, 3000)
+  }
+
+  const submit = async (fields: InputFields) => {
+    Keyboard.dismiss()
     setLoading(true)
-    console.log(fields)
+    const [, err] = await signin(fields.email, fields.password)
+    if (err) {
+      if (err.name === 'FetchError') {
+        showToast('Correo o contraseña incorrectos.')
+      } else {
+        showToast('Ha ocurrido un error. Intentalo de nuevo')
+      }
+      return setLoading(false)
+    }
   }
 
   return (
@@ -52,17 +70,18 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
         <Text style={Styles.formLabel}>INFORMACIÓN DE CUENTA</Text>
         <Controller
           control={control}
-          name='username'
+          name='email'
           defaultValue=''
           render={({ onChange, value }) => (
             <Input
-              placeholder='Usuario'
+              placeholder='Correo electronico'
               autoFocus
+              keyboardType='email-address'
               containerStyle={{ marginBottom: 10 }}
               errorStyle={{ display: 'none' }}
               clearButtonMode='while-editing'
               returnKeyType='next'
-              textContentType='username'
+              textContentType='emailAddress'
               onChangeText={onChange}
               onSubmitEditing={() => password.current.focus()}
               value={value}
@@ -92,22 +111,22 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
           buttonStyle={{ padding: 0, paddingLeft: 10, marginTop: 2 }}
           title='¿Se te olvido la contraseña?'
           type='clear'
+          onPress={handleSubmit(submit)}
           titleStyle={{ fontSize: 12 }}
         />
       </ScrollView>
-      <View>
-        <View style={Styles.btnContainer}>
-          <Button titleStyle={Styles.btnTitle} onPress={() => navigation.goBack()} title='Cancelar' type='clear' />
-          <Button
-            buttonStyle={{ borderRadius: 50, paddingHorizontal: 15 }}
-            loading={loading}
-            titleStyle={Styles.btnTitle}
-            title='Iniciar sesión'
-            onPress={handleSubmit(submit)}
-          />
-        </View>
-        <KeyboardSpacer />
+      <View style={Styles.btnContainer}>
+        <Button titleStyle={Styles.btnTitle} onPress={() => navigation.goBack()} title='Cancelar' type='clear' />
+        <Button
+          buttonStyle={{ borderRadius: 50, paddingHorizontal: 15 }}
+          loading={loading}
+          titleStyle={Styles.btnTitle}
+          title='Iniciar sesión'
+          onPress={handleSubmit(submit)}
+        />
       </View>
+      <Toast ref={toast} style={{ backgroundColor: '#ef5350' }} positionValue={100} />
+      <KeyboardSpacer />
     </View>
   )
 }
