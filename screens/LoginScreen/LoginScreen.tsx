@@ -38,7 +38,11 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
     const [, err] = await signin(fields.email, fields.password)
     if (err) {
       if (err.name === 'FetchError') {
-        showToast('Correo o contraseña incorrectos.')
+        if (err.data?.message === 'your account has not been verified') {
+          showToast('Tu cuenta aún no ha sido verificada.')
+        } else {
+          showToast('Correo o contraseña incorrectos.')
+        }
       } else {
         showToast('Ha ocurrido un error. Intentalo de nuevo')
       }
