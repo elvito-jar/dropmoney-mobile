@@ -37,7 +37,7 @@ const StepThree: React.FC<Props> = ({ navigation }) => {
     setShowSelect(false)
   }
 
-  const onSubmit = (fields: InputFields) => {
+  const submit = (fields: InputFields) => {
     state.current = { ...state.current, ...fields, state: venezuelaState }
     navigation.navigate('StepFour')
   }
@@ -125,6 +125,7 @@ const StepThree: React.FC<Props> = ({ navigation }) => {
             }}
             type='outline'
             iconRight={true}
+            accessibilityLabel='Estado'
             onPress={() => setShowSelect(true)}
             title={venezuelaState}
             containerStyle={{ width: '100%', paddingHorizontal: 10 }}
@@ -132,7 +133,7 @@ const StepThree: React.FC<Props> = ({ navigation }) => {
             titleStyle={{ color: theme.colors?.grey1 }}
           />
         </View>
-        <Button containerStyle={{ paddingHorizontal: 10 }} onPress={handleSubmit(onSubmit)} title='Siguiente' />
+        <Button containerStyle={{ paddingHorizontal: 10 }} onPress={handleSubmit(submit)} title='Siguiente' />
         <Select state={venezuelaState} onDone={onDone} onCancel={onCancel} visible={showSelect} />
       </ScrollView>
     </AuthLayout>
