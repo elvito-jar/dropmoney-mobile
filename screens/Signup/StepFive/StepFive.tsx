@@ -16,6 +16,7 @@ import { Button } from 'react-native-elements'
 import AuthLayout from '../../../components/AuthLayout'
 import FullScreenLoader from '../../../components/FullScreenLoader'
 import ToastMessage from '../../../components/ToastMessage'
+import { useAuth } from '../../../hooks/useAuth'
 import useSignupState from '../../../hooks/useSignupState'
 import useTheme from '../../../hooks/useTheme'
 import { SignUpStackParamList } from '../../../types'
@@ -36,6 +37,7 @@ const StepFive: React.FC<Props> = (props) => {
   const [successLoader, setSuccessLoader] = React.useState<boolean>(false)
   const [focus, setFocus] = React.useState<boolean>(false)
   const { theme } = useTheme()
+  const { signup } = useAuth()
   const input = React.useRef<TextInput>(undefined!)
   const [overlay, setOverlay] = React.useState<boolean>(false)
   const selectedIndex = React.useMemo(
@@ -85,29 +87,19 @@ const StepFive: React.FC<Props> = (props) => {
   const submit = async () => {
     setLoading(true)
     const validationCode = await AsyncStorage.getItem('@phoneNumber_codeValidation')
+    console.log(validationCode, code !== validationCode)
     if (code !== validationCode) {
+      setLoading(false)
       return showToast('Codigo incorrecto.')
     }
-
-    const formData = new FormData()
-    for (const field in state.current) {
-      if (Object.prototype.hasOwnProperty.call(state.current, field)) {
-        formData.append(field, state.current[field].toString())
-      }
-    }
-    const config: RequestInit = {
-      headers: { 'Content-Type': 'multipart/form-data' },
-      method: 'POST',
-      body: formData,
-    }
-
-    const [, err] = await makeRequest('http://localhost:5999/auth/registrer', config)
+    const [, err] = await signup(state.current)
     if (err) {
-      showToast('Verifica tu conexión a internet.')
-    } else {
-      props.navigation.navigate('SuccessSignup')
+      console.log(err.data)
+      setLoading(false)
+      return showToast('Ha ocurrido un error. Intentalo de nuevo')
     }
-    return setLoading(false)
+    props.navigation.navigate('SuccessSignup')
+    setLoading(false)
   }
 
   return (
@@ -171,7 +163,7 @@ const StepFive: React.FC<Props> = (props) => {
           />
           <FullScreenLoader visible={visibleLoader} message='El mensaje se ha enviado' success={successLoader} />
         </ScrollView>
-        <Toast ref={toast} positionValue={100} />
+        <Toast ref={toast} style={{ backgroundColor: '#ef5350' }} positionValue={100} />
       </>
     </AuthLayout>
   )
