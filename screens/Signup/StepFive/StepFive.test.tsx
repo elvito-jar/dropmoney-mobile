@@ -28,7 +28,7 @@ describe('<StepFive />', () => {
   // let useAuthOb: any
 
   beforeEach(() => {
-    jest.clearAllMocks()
+    jest.restoreAllMocks()
   })
 
   it('se renderiza correctamente', () => {

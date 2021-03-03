@@ -37,7 +37,6 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
     setLoading(true)
     const [, err] = await signin(fields.email, fields.password)
     if (err) {
-      console.log(err)
       if (err.name === 'FetchError') {
         if (err.data?.message === 'your account has not been verified') {
           showToast('Tu cuenta aún no ha sido verificada.')
@@ -104,7 +103,7 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
               containerStyle={{ marginBottom: 10 }}
               errorStyle={{ display: 'none' }}
               returnKeyType='done'
-              // secureTextEntry
+              secureTextEntry
               textContentType='password'
               onChangeText={onChange}
               onSubmitEditing={handleSubmit(submit)}

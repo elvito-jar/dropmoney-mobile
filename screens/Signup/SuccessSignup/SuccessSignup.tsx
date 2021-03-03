@@ -6,7 +6,7 @@ import useTheme from '../../../hooks/useTheme'
 import { SignUpStackParamList } from '../../../types'
 
 type Props = {
-  navigation: StackNavigationProp<SignUpStackParamList, 'StepFive'>
+  navigation: StackNavigationProp<SignUpStackParamList, 'SuccessSignup'>
 }
 
 const SuccessSignup: React.FC<Props> = ({ navigation }) => {
