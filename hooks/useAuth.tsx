@@ -3,7 +3,7 @@ import moment from 'moment'
 import React from 'react'
 import { URL } from '../constants'
 import { SignupState } from '../types'
-import makeRequest, { RequestResponse } from '../utils/makeRequest'
+import makeRequest, { FetchError, RequestResponse } from '../utils/makeRequest'
 
 type State = {
   userToken: string | null
@@ -70,8 +70,8 @@ const AuthContext: React.FC = ({ children }) => {
       },
     }
     const [res, err] = await makeRequest(`${URL}/auth/login`, config)
-    if (err) {
-      return [null, err]
+    if (err || res.message === 'not login') {
+      return res?.message === 'not login' ? [null, new FetchError('not login', [], res)] : [null, err]
     }
     dispatch({ type: 'SIGN_IN', token: res.token })
     return [res, null]

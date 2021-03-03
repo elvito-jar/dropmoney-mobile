@@ -87,14 +87,12 @@ const StepFive: React.FC<Props> = (props) => {
   const submit = async () => {
     setLoading(true)
     const validationCode = await AsyncStorage.getItem('@phoneNumber_codeValidation')
-    console.log(validationCode, code !== validationCode)
     if (code !== validationCode) {
       setLoading(false)
       return showToast('Codigo incorrecto.')
     }
     const [, err] = await signup(state.current)
     if (err) {
-      console.log(err.data)
       setLoading(false)
       return showToast('Ha ocurrido un error. Intentalo de nuevo')
     }
@@ -125,6 +123,7 @@ const StepFive: React.FC<Props> = (props) => {
                 onBlur={() => setFocus(false)}
                 autoFocus
                 editable={!loading}
+                accessibilityLabel='Codigo'
                 textContentType='oneTimeCode'
                 onChangeText={handleChange}
                 keyboardType='number-pad'

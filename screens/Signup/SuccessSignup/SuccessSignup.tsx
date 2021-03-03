@@ -30,7 +30,7 @@ const SuccessSignup: React.FC<Props> = ({ navigation }) => {
   return (
     <View style={Styles.container}>
       <View>
-        <Text style={Styles.title}>¡Registración completa!</Text>
+        <Text style={Styles.title}>¡Registración completado!</Text>
         <Text style={[Styles.subtitle, { color: theme.colors?.grey1 }]}>
           Te hemos enviado un correo de verificación a tu correo electrónico. Por favor verifica tu cuenta para
           iniciar sesión.
