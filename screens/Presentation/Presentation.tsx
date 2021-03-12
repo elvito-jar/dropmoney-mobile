@@ -18,7 +18,7 @@ const Presentation: React.FC<Props> = ({ navigation }) => (
         buttonStyle={Styles.btn}
         titleStyle={Styles.btnTitle}
         title='Crear una cuenta'
-        onPress={() => navigation.navigate('SignUp')}
+        onPress={() => navigation.navigate('PasswordRecovery')}
       />
       <Button
         buttonStyle={[Styles.btn, { backgroundColor: '#B9B7BD' }]}

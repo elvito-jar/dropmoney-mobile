@@ -1,30 +1,39 @@
-import { DarkTheme, DefaultTheme, NavigationContainer } from '@react-navigation/native'
+import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import * as React from 'react'
 import { ColorSchemeName } from 'react-native'
-import { ThemeProvider } from 'react-native-elements'
-import { darkTheme, lightTheme } from '../constants/theme'
+import { Icon, ThemeProvider } from 'react-native-elements'
+import { CustomAlert, CustomAlertProvider, CustomAlertRef } from '../components/CustomAlert'
+import Colors from '../constants/Colors'
 import { AuthContext, useAuth } from '../hooks/useAuth'
+import ForgotPassword from '../screens/ForgotPassword'
 import LoginScreen from '../screens/LoginScreen'
+import NotFoundScreen from '../screens/NotFoundScreen'
+import PasswordRecoveryScreen from '../screens/PasswordRecoveryScreen'
 import Presentation from '../screens/Presentation'
 import { RootStackParamList } from '../types'
 import BottomTabNavigator from './BottomTabNavigator'
-// import LinkingConfiguration from './LinkingConfiguration';
+import LinkingConfiguration from './LinkingConfiguration'
 import SignupNavigator from './SignupNavigator'
 
 // If you are not familiar with React Navigation, we recommend going through the
 // "Fundamentals" guide: https://reactnavigation.org/docs/getting-started
+
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
+  const customAlert = React.useRef<CustomAlertRef>(undefined!)
   return (
-    <NavigationContainer
-      // linking={LinkingConfiguration}
-      theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <ThemeProvider theme={colorScheme === 'dark' ? darkTheme : lightTheme}>
+    <CustomAlertProvider customAlert={customAlert}>
+      <ThemeProvider theme={colorScheme === 'dark' ? Colors.dark : Colors.light}>
         <AuthContext>
-          <RootNavigator />
+          <NavigationContainer
+            linking={LinkingConfiguration}
+            theme={colorScheme === 'dark' ? Colors.dark : Colors.light}>
+            <RootNavigator />
+            <CustomAlert ref={customAlert} />
+          </NavigationContainer>
         </AuthContext>
       </ThemeProvider>
-    </NavigationContainer>
+    </CustomAlertProvider>
   )
 }
 
@@ -32,23 +41,51 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
 // Read more here: https://reactnavigation.org/docs/modal
 const Stack = createStackNavigator<RootStackParamList>()
 
+const BackImage: React.FC<{ tintColor: string | undefined }> = (props) => (
+  <Icon
+    name='angle-left'
+    type='font-awesome'
+    size={37}
+    color={props.tintColor}
+    containerStyle={{
+      marginHorizontal: 5,
+      paddingLeft: 3,
+      paddingBottom: 4,
+    }}
+  />
+)
+
 function RootNavigator() {
   const { state } = useAuth()
 
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Navigator
+      screenOptions={{
+        headerBackImage: BackImage,
+        headerTitle: '',
+        headerBackTitleVisible: false,
+        headerStyle: {
+          shadowColor: 'transparent',
+        },
+      }}>
       {state.userToken === null ? (
         <>
-          <Stack.Screen name='Presentation' component={Presentation} />
-          <Stack.Screen name='Login' component={LoginScreen} />
-          <Stack.Screen name='SignUp' component={SignupNavigator} />
+          <Stack.Screen options={{ headerShown: false }} name='Presentation' component={Presentation} />
+          <Stack.Screen
+            name='PasswordRecovery'
+            options={{ headerShown: false }}
+            component={PasswordRecoveryScreen}
+          />
+          <Stack.Screen name='ForgotPassword' options={{ headerShown: false }} component={ForgotPassword} />
+          <Stack.Screen options={{ headerShown: false }} name='Login' component={LoginScreen} />
+          <Stack.Screen options={{ headerShown: false }} name='SignUp' component={SignupNavigator} />
         </>
       ) : (
         <>
           <Stack.Screen name='Root' component={BottomTabNavigator} />
         </>
       )}
-      {/* // <Stack.Screen name='NotFound' component={NotFoundScreen} options={{ title: 'Oops!' }} /> */}
+      <Stack.Screen name='NotFound' component={NotFoundScreen} options={{ title: 'Oops!' }} />
     </Stack.Navigator>
   )
 }

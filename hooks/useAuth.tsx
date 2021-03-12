@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import moment from 'moment'
 import React from 'react'
+// import { getDeviceId, getDeviceName, getUniqueId } from 'react-native-device-info'
 import { URL } from '../constants'
 import { SignupState } from '../types'
 import makeRequest, { FetchError, RequestResponse } from '../utils/makeRequest'
@@ -62,6 +63,7 @@ const AuthContext: React.FC = ({ children }) => {
   }, [])
 
   const signin = async (email: string, password: string): Promise<RequestResponse> => {
+    // const deviceName = await getDeviceName()
     const config: RequestInit = {
       method: 'POST',
       body: JSON.stringify({ email, password }),
@@ -71,6 +73,7 @@ const AuthContext: React.FC = ({ children }) => {
     }
     const [res, err] = await makeRequest(`${URL}/auth/login`, config)
     if (err || res.message === 'not login') {
+      console.log(err, res)
       return res?.message === 'not login' ? [null, new FetchError('not login', [], res)] : [null, err]
     }
     dispatch({ type: 'SIGN_IN', token: res.token })

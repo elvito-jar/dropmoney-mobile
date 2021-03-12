@@ -1,24 +1,14 @@
-import * as Linking from 'expo-linking';
+import * as Linking from 'expo-linking'
+
+const prefix = Linking.makeUrl('/')
 
 export default {
-  prefixes: [Linking.makeUrl('/')],
+  prefixes: [prefix],
   config: {
     screens: {
-      Root: {
-        screens: {
-          TabOne: {
-            screens: {
-              TabOneScreen: 'one',
-            },
-          },
-          TabTwo: {
-            screens: {
-              TabTwoScreen: 'two',
-            },
-          },
-        },
-      },
-      NotFound: '*',
+      initialRouteName: 'Presentation',
+      path: '',
+      PasswordRecovery: 'passwordRecovery/:token/:id/:username',
     },
   },
-};
+}

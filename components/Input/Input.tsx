@@ -15,7 +15,6 @@ const Input = React.forwardRef<EInput, InputProps>((props, ref) => (
 const Styles = StyleSheet.create({
   inputContainer: {
     flex: 1,
-    flexBasis: '100%',
     borderBottomWidth: 0,
   },
   inputInner: {

@@ -22,7 +22,7 @@ type InputFields = {
 
 const LoginScreen: React.FC<Props> = ({ navigation }) => {
   const { control, handleSubmit } = useForm<InputFields>()
-  const { theme } = useTheme()
+  const theme = useTheme()
   const { signin } = useAuth()
   const toast = React.useRef<Toast>(undefined!)
   const [loading, setLoading] = React.useState<boolean>(false)
@@ -111,13 +111,15 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
             />
           )}
         />
-        <Button
-          buttonStyle={{ padding: 0, paddingLeft: 10, marginTop: 2 }}
-          title='¿Se te olvido la contraseña?'
-          type='clear'
-          onPress={handleSubmit(submit)}
-          titleStyle={{ fontSize: 12 }}
-        />
+        <View>
+          <Button
+            buttonStyle={{ padding: 0, paddingLeft: 10, marginTop: 2 }}
+            title='¿Se te olvido la contraseña?'
+            type='clear'
+            onPress={() => navigation.navigate('ForgotPassword')}
+            titleStyle={{ fontSize: 12 }}
+          />
+        </View>
       </ScrollView>
       <View style={Styles.btnContainer}>
         <Button titleStyle={Styles.btnTitle} onPress={() => navigation.goBack()} title='Cancelar' type='clear' />

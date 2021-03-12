@@ -1,7 +1,7 @@
 import { StackNavigationProp } from '@react-navigation/stack'
 import React from 'react'
 import { Controller, useForm } from 'react-hook-form'
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Alert, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { Button, Input } from 'react-native-elements'
 import AuthLayout from '../../../components/AuthLayout'
 import { URL } from '../../../constants'
@@ -21,7 +21,7 @@ type InputFields = {
 }
 
 const UsernamePass: React.FC<Props> = (props) => {
-  const { theme } = useTheme()
+  const theme = useTheme()
   const { control, formState, handleSubmit, setError, clearErrors } = useForm<InputFields>({
     mode: 'onSubmit',
     criteriaMode: 'all',
@@ -35,17 +35,28 @@ const UsernamePass: React.FC<Props> = (props) => {
   const forceUpdate = React.useCallback(() => updateState({}), [])
 
   const submit = async (fields: InputFields) => {
+    setLoading(true)
     state.current = { ...state.current, ...fields }
     const [res, err] = await makeRequest(`${URL}/auth/check-register?username=${fields.username}`)
+    console.log(res, err?.name)
     if (err) {
       if (err.name === 'FetchError') {
         clearErrors('username')
-        return setError('username', {
+        setError('username', {
           type: 'validate',
           message: 'Este usuario ya esta ocupado.',
         })
+      } else if (err.message === 'Network request failed') {
+        Alert.alert(
+          'Error de conexión.',
+          'Hemos detectado problemas de conexión a internet. Chequea tu conexión e inténtalo de nuevo.',
+          [{ text: 'OK' }],
+          { cancelable: false }
+        )
       }
+      return setLoading(false)
     }
+    setLoading(false)
     props.navigation.navigate('StepOne')
   }
 

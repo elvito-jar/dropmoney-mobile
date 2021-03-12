@@ -6,7 +6,7 @@ import useTheme from '../../hooks/useTheme'
 
 const AuthLayout: React.FC = ({ children }) => {
   const navigation = useNavigation()
-  const { theme } = useTheme()
+  const { colors } = useTheme()
 
   return (
     <View style={{ flex: 1, backgroundColor: 'white' }}>
@@ -16,7 +16,7 @@ const AuthLayout: React.FC = ({ children }) => {
           type: 'font-awesome',
           accessibilityLabel: 'back',
           size: 34,
-          color: theme.colors?.primary,
+          color: colors?.primary,
           onPress: () => navigation.goBack(),
         }}
         backgroundColor='transparent'
@@ -31,7 +31,7 @@ const AuthLayout: React.FC = ({ children }) => {
           alignItems: 'center',
           justifyContent: 'center',
           borderTopWidth: 1,
-          borderTopColor: theme.colors?.divider,
+          borderTopColor: colors?.divider,
         }}>
         <Button
           type='clear'

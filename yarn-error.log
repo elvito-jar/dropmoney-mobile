@@ -1,5 +1,5 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Users\Elvis\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add @types/react-native-keyboard-spacer
+  C:\Program Files\nodejs\node.exe C:\Users\Elvis\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add expo-linking 2.0.0
 
 PATH: 
   C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\Git\cmd;C:\Program Files\nodejs\;;C:\Users\Elvis\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files\heroku\bin;C:\Program Files\PostgreSQL\13\bin;C:\Users\Elvis\AppData\Roaming\npm;C:\Program Files\MongoDB\Server\4.2\bin
@@ -14,7 +14,17 @@ Platform:
   win32 x64
 
 Trace: 
-  Error: EPERM: operation not permitted, unlink 'C:\Users\Elvis\Documents\development\dropmoney-mobile\node_modules\@babel\generator\node_modules\.bin'
+  Error: https://registry.yarnpkg.com/2.0.0: Not found
+      at Request.params.callback [as _callback] (C:\Users\Elvis\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:66988:18)
+      at Request.self.callback (C:\Users\Elvis\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:140662:22)
+      at Request.emit (events.js:314:20)
+      at Request.<anonymous> (C:\Users\Elvis\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:141634:10)
+      at Request.emit (events.js:314:20)
+      at IncomingMessage.<anonymous> (C:\Users\Elvis\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:141556:12)
+      at Object.onceWrapper (events.js:420:28)
+      at IncomingMessage.emit (events.js:326:22)
+      at endReadableNT (_stream_readable.js:1241:12)
+      at processTicksAndRejections (internal/process/task_queues.js:84:21)
 
 npm manifest: 
   {
@@ -32,7 +42,10 @@ npm manifest:
       "setupFiles": [
         "./__mocks__/setupNavigation.ts"
       ],
-      "setupFilesAfterEnv": ["@testing-library/jest-native/extend-expect", "./__mocks__/setup.ts"],
+      "setupFilesAfterEnv": [
+        "@testing-library/jest-native/extend-expect",
+        "./__mocks__/setup.ts"
+      ],
       "transformIgnorePatterns": [
         "node_modules/(?!(jest-)?react-native|react-clone-referenced-element|@react-native-community|expo(nent)?|@expo(nent)?/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|@sentry/.*)"
       ],
@@ -62,7 +75,7 @@ npm manifest:
       "expo-asset": "~8.2.1",
       "expo-constants": "~9.3.0",
       "expo-font": "~8.4.0",
-      "expo-linking": "~2.0.0",
+      "expo-linking": "~2.0.1",
       "expo-splash-screen": "~0.8.0",
       "expo-status-bar": "~1.0.3",
       "expo-web-browser": "~8.6.0",
@@ -91,6 +104,7 @@ npm manifest:
       "@types/jest": "^26.0.20",
       "@types/react": "~16.9.35",
       "@types/react-native": "~0.63.2",
+      "@types/react-native-keyboard-spacer": "^0.4.1",
       "@types/react-test-renderer": "^17.0.1",
       "eslint": "5.16.0",
       "eslint-config-prettier": "^7.2.0",
@@ -2208,6 +2222,14 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.3.tgz#2ab0d5da2e5815f94b0b9d4b95d1e5f243ab2ca7"
     integrity sha512-KfRL3PuHmqQLOG+2tGpRO26Ctg+Cq1E01D2DMriKEATHgWLfeNDmq9e29Q9WIky0dQ3NPkd1mzYH8Lm936Z9qw==
   
+  "@types/react-native-keyboard-spacer@^0.4.1":
+    version "0.4.1"
+    resolved "https://registry.yarnpkg.com/@types/react-native-keyboard-spacer/-/react-native-keyboard-spacer-0.4.1.tgz#2bc5bf42df1c99ddd99bd5be0f0815df3f28e938"
+    integrity sha512-TEWvZjKiHDNFJ2zw+WGmrR84lIEaUw0WLj/Ory7zamFuMGK/Bqz7R+/u/H/ZgNJklw2svm/v7bJFdMvZhqefVA==
+    dependencies:
+      "@types/react" "*"
+      "@types/react-native" "*"
+  
   "@types/react-native-vector-icons@^6.4.6":
     version "6.4.6"
     resolved "https://registry.yarnpkg.com/@types/react-native-vector-icons/-/react-native-vector-icons-6.4.6.tgz#848e3b14572def56212cafbf5cb1254b445bfb41"
@@ -4107,7 +4129,7 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/expo-linear-gradient/-/expo-linear-gradient-8.4.0.tgz#34e6f960b1971c57dacf7211c747ba490a76bf63"
     integrity sha512-f9JOXaIl0MR8RBYRIud5UAsEi52oz81XhQs73VUpujemHjOyHmrZa6dqwf399YOwI/WBwbpcINcUIw/mCYE1mA==
   
-  expo-linking@~2.0.0, expo-linking@~2.0.1:
+  expo-linking@~2.0.1:
     version "2.0.1"
     resolved "https://registry.yarnpkg.com/expo-linking/-/expo-linking-2.0.1.tgz#0ac0298039b0f7f6c109d7efbbb661efc1c56760"
     integrity sha512-S+Bb5u1rlld6ZICKOQ4B/htHiIbtd9eJMpwXoWMcl68V+UNNxJisB5lUZePXWSoHlb0QbQfVOAf48u2WD588lQ==

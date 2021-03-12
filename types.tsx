@@ -4,6 +4,8 @@ export type RootStackParamList = {
   NotFound: undefined
   Login: undefined
   SignUp: undefined
+  ForgotPassword: undefined
+  PasswordRecovery: undefined
 }
 
 export type SignUpStackParamList = {
@@ -18,8 +20,8 @@ export type SignUpStackParamList = {
 }
 
 export type BottomTabParamList = {
-  TabOne: undefined
-  TabTwo: undefined
+  Cuentas: undefined
+  Menu: undefined
 }
 
 export type TabOneParamList = {
@@ -44,6 +46,25 @@ export type SignupState = {
   zipCode: string
   email: string
   phoneNumber: string
+}
+
+export type ColorPallete = {
+  dark: boolean
+  colors: {
+    primary?: string
+    text?: string
+    background?: string
+    grey0?: string
+    grey1?: string
+    grey2?: string
+    grey3?: string
+    grey4?: string
+    grey5?: string
+    grayOutline?: string
+    success?: string
+    error?: string
+    divider?: string
+  }
 }
 
 export type VenezuelaState =

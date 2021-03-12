@@ -1,6 +1,6 @@
-import React from 'react'
-import { ThemeContext } from 'react-native-elements'
+import { useTheme } from '@react-navigation/native'
+import { ColorPallete } from '../types'
 
 export default () => {
-  return React.useContext(ThemeContext)
+  return useTheme() as ColorPallete
 }
