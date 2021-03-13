@@ -3321,6 +3321,11 @@ crypto-random-string@^1.0.0:
   resolved "https://registry.yarnpkg.com/crypto-random-string/-/crypto-random-string-1.0.0.tgz#a230f64f568310e1498009940790ec99545bca7e"
   integrity sha1-ojD2T1aDEOFJgAmUB5DsmVRbyn4=
 
+cryptocurrency-icons@^0.17.1:
+  version "0.17.1"
+  resolved "https://registry.yarnpkg.com/cryptocurrency-icons/-/cryptocurrency-icons-0.17.1.tgz#914084e2d443f8ee031b3ff162e0dd9f8446a8b2"
+  integrity sha512-2IMNdqCkYRg4BJVS5fFPPmPnYjWR/dGG+0TOKYoHGVfWfIck7Iy1LTHWMT9Rcd4gxbkSz1FbJLM6ptCQdJEDVA==
+
 css-in-js-utils@^2.0.0:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/css-in-js-utils/-/css-in-js-utils-2.0.1.tgz#3b472b398787291b47cfe3e44fecfdd9e914ba99"

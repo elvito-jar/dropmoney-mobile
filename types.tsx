@@ -27,6 +27,7 @@ export type BottomTabParamList = {
 
 export type AccountsParamList = {
   Accounts: undefined
+  AddressdetailsScreen: undefined
 }
 
 export type TransfersParamList = {

@@ -6,6 +6,7 @@ import { Icon } from 'react-native-elements'
 import Colors from '../constants/Colors'
 import useColorScheme from '../hooks/useColorScheme'
 import AccountsScreen from '../screens/AccountsScreen'
+import AdressdetailsScreen from '../screens/AdressdetailsScreen'
 import TabTwoScreen from '../screens/TabTwoScreen'
 import { AccountsParamList, BottomTabParamList, MenuParamList, TransfersParamList } from '../types'
 
@@ -67,6 +68,11 @@ function AccountNavigator() {
   return (
     <AccountStack.Navigator>
       <AccountStack.Screen name='Accounts' component={AccountsScreen} options={{ headerTitle: 'Cuentas' }} />
+      <AccountStack.Screen
+        name='AddressdetailsScreen'
+        component={AdressdetailsScreen}
+        options={{ headerTitle: 'Detalles de cuenta' }}
+      />
     </AccountStack.Navigator>
   )
 }
