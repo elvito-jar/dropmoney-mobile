@@ -29,8 +29,8 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
             linking={LinkingConfiguration}
             theme={colorScheme === 'dark' ? Colors.dark : Colors.light}>
             <RootNavigator />
-            <CustomAlert ref={customAlert} />
           </NavigationContainer>
+          <CustomAlert ref={customAlert} />
         </AuthContext>
       </ThemeProvider>
     </CustomAlertProvider>
@@ -68,7 +68,7 @@ function RootNavigator() {
           shadowColor: 'transparent',
         },
       }}>
-      {state.userToken === null ? (
+      {state.userToken === false ? (
         <>
           <Stack.Screen options={{ headerShown: false }} name='Presentation' component={Presentation} />
           <Stack.Screen
@@ -82,7 +82,7 @@ function RootNavigator() {
         </>
       ) : (
         <>
-          <Stack.Screen name='Root' component={BottomTabNavigator} />
+          <Stack.Screen options={{ headerShown: false }} name='Root' component={BottomTabNavigator} />
         </>
       )}
       <Stack.Screen name='NotFound' component={NotFoundScreen} options={{ title: 'Oops!' }} />

@@ -1,73 +1,92 @@
-import { Ionicons } from '@expo/vector-icons';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createStackNavigator } from '@react-navigation/stack';
-import * as React from 'react';
+import { Ionicons } from '@expo/vector-icons'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import { createStackNavigator } from '@react-navigation/stack'
+import * as React from 'react'
+import { Icon } from 'react-native-elements'
+import Colors from '../constants/Colors'
+import useColorScheme from '../hooks/useColorScheme'
+import AccountsScreen from '../screens/AccountsScreen'
+import TabTwoScreen from '../screens/TabTwoScreen'
+import { AccountsParamList, BottomTabParamList, MenuParamList, TransfersParamList } from '../types'
 
-import Colors from '../constants/Colors';
-import useColorScheme from '../hooks/useColorScheme';
-import TabOneScreen from '../screens/TabOneScreen';
-import TabTwoScreen from '../screens/TabTwoScreen';
-import { BottomTabParamList, TabOneParamList, TabTwoParamList } from '../types';
-
-const BottomTab = createBottomTabNavigator<BottomTabParamList>();
+const BottomTab = createBottomTabNavigator<BottomTabParamList>()
 
 export default function BottomTabNavigator() {
-  const colorScheme = useColorScheme();
+  const colorScheme = useColorScheme()
 
   return (
     <BottomTab.Navigator
-      initialRouteName="TabOne"
-      tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}>
+      initialRouteName='Accounts'
+      tabBarOptions={{
+        activeTintColor: Colors[colorScheme].colors.primary,
+        labelStyle: { paddingBottom: 5 },
+        labelPosition: 'below-icon',
+      }}>
       <BottomTab.Screen
-        name="TabOne"
-        component={TabOneNavigator}
+        name='Accounts'
+        component={AccountNavigator}
         options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
+          tabBarIcon: ({ color, size }) => (
+            <Icon name='dollar' type='font-awesome' color={color} size={size - 3} />
+          ),
+          title: 'Cuentas',
         }}
       />
       <BottomTab.Screen
-        name="TabTwo"
-        component={TabTwoNavigator}
+        name='Transfers'
+        component={TransferNavigator}
         options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
+          tabBarIcon: ({ color, size }) => (
+            <Icon name='money-check-alt' type='font-awesome-5' color={color} size={size} />
+          ),
+          title: 'Transferencias',
+        }}
+      />
+      <BottomTab.Screen
+        name='Menu'
+        component={MenuNavigator}
+        options={{
+          tabBarIcon: ({ color }) => <Icon name='menu' type='feather' color={color} />,
         }}
       />
     </BottomTab.Navigator>
-  );
+  )
 }
 
 // You can explore the built-in icon families and icons on the web at:
 // https://icons.expo.fyi/
 function TabBarIcon(props: { name: React.ComponentProps<typeof Ionicons>['name']; color: string }) {
-  return <Ionicons size={30} style={{ marginBottom: -3 }} {...props} />;
+  return <Ionicons size={30} style={{ marginBottom: -3 }} {...props} />
 }
 
 // Each tab has its own navigation stack, you can read more about this pattern here:
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
-const TabOneStack = createStackNavigator<TabOneParamList>();
+const AccountStack = createStackNavigator<AccountsParamList>()
 
-function TabOneNavigator() {
+function AccountNavigator() {
   return (
-    <TabOneStack.Navigator>
-      <TabOneStack.Screen
-        name="TabOneScreen"
-        component={TabOneScreen}
-        options={{ headerTitle: 'Tab One Title' }}
-      />
-    </TabOneStack.Navigator>
-  );
+    <AccountStack.Navigator>
+      <AccountStack.Screen name='Accounts' component={AccountsScreen} options={{ headerTitle: 'Cuentas' }} />
+    </AccountStack.Navigator>
+  )
 }
 
-const TabTwoStack = createStackNavigator<TabTwoParamList>();
+const TransfersStack = createStackNavigator<TransfersParamList>()
 
-function TabTwoNavigator() {
+function TransferNavigator() {
   return (
-    <TabTwoStack.Navigator>
-      <TabTwoStack.Screen
-        name="TabTwoScreen"
-        component={TabTwoScreen}
-        options={{ headerTitle: 'Tab Two Title' }}
-      />
-    </TabTwoStack.Navigator>
-  );
+    <TransfersStack.Navigator>
+      <TransfersStack.Screen name='Transfers' component={TabTwoScreen} options={{ headerShown: false }} />
+    </TransfersStack.Navigator>
+  )
+}
+
+const MenuStack = createStackNavigator<MenuParamList>()
+
+function MenuNavigator() {
+  return (
+    <MenuStack.Navigator>
+      <MenuStack.Screen name='Menu' component={TabTwoScreen} options={{ headerShown: false }} />
+    </MenuStack.Navigator>
+  )
 }

@@ -20,16 +20,21 @@ export type SignUpStackParamList = {
 }
 
 export type BottomTabParamList = {
-  Cuentas: undefined
+  Accounts: undefined
   Menu: undefined
+  Transfers: undefined
 }
 
-export type TabOneParamList = {
-  TabOneScreen: undefined
+export type AccountsParamList = {
+  Accounts: undefined
 }
 
-export type TabTwoParamList = {
-  TabTwoScreen: undefined
+export type TransfersParamList = {
+  Transfers: undefined
+}
+
+export type MenuParamList = {
+  Menu: undefined
 }
 
 export type SignupState = {
