@@ -1,4 +1,4 @@
-import { Keyboard, TextStyle, ViewStyle } from 'react-native'
+import { TextStyle, ViewStyle } from 'react-native'
 import Toast from 'react-native-easy-toast'
 import ToastMessage from './ToastMessage'
 
@@ -13,7 +13,6 @@ const defaultOptions: Options = {
 }
 
 function showToast(toastRef: Toast, message: string, options: Options = defaultOptions) {
-  Keyboard.dismiss()
   toastRef.show(<ToastMessage message={message} {...options} />)
 }
 

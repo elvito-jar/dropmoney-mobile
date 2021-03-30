@@ -5,7 +5,7 @@ export type RootStackParamList = {
   Login: undefined
   SignUp: undefined
   ForgotPassword: undefined
-  PasswordRecovery: undefined
+  PasswordRecovery: { token: string; username: string }
 }
 
 export type SignUpStackParamList = {
@@ -36,6 +36,13 @@ export type TransfersParamList = {
 
 export type MenuParamList = {
   Menu: undefined
+  Email: { email: string }
+  Username: { username: string }
+  PhoneNumber: { phone: string }
+  Birthday: { birthday: string }
+  ShippingAddress: undefined
+  Password: undefined
+  About: undefined
 }
 
 export type SignupState = {
@@ -58,7 +65,11 @@ export type ColorPallete = {
   dark: boolean
   colors: {
     primary?: string
+    secondary?: string
+    terciary?: string
+    tint?: string
     text?: string
+    textTint?: string
     background?: string
     grey0?: string
     grey1?: string

@@ -22,7 +22,7 @@ type InputFields = {
 const StepThree: React.FC<Props> = ({ navigation }) => {
   const { control, handleSubmit, formState } = useForm<InputFields>()
   const [venezuelaState, setVenezuelaState] = React.useState<VenezuelaState>('Zulia')
-  const { theme } = useTheme()
+  const theme = useTheme()
   const [showSelect, setShowSelect] = React.useState<boolean>(false)
   const state = useSignupState()
   const input2 = React.useRef<Input>(undefined!)

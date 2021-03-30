@@ -8,7 +8,7 @@ export default {
     screens: {
       initialRouteName: 'Presentation',
       path: '',
-      PasswordRecovery: 'passwordRecovery/:token/:id/:username',
+      PasswordRecovery: 'passwordRecovery/:token/:username',
     },
   },
 }

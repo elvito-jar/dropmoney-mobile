@@ -4,6 +4,7 @@ import * as React from 'react'
 import { ColorSchemeName } from 'react-native'
 import { Icon, ThemeProvider } from 'react-native-elements'
 import { CustomAlert, CustomAlertProvider, CustomAlertRef } from '../components/CustomAlert'
+import { ToastGlobal, ToastGlobalProvider, ToastGlobalRef } from '../components/ToastGlobal'
 import Colors from '../constants/Colors'
 import { AuthContext, useAuth } from '../hooks/useAuth'
 import ForgotPassword from '../screens/ForgotPassword'
@@ -21,18 +22,22 @@ import SignupNavigator from './SignupNavigator'
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
   const customAlert = React.useRef<CustomAlertRef>(undefined!)
+  const toast = React.useRef<ToastGlobalRef>(undefined!)
   return (
     <CustomAlertProvider customAlert={customAlert}>
-      <ThemeProvider theme={colorScheme === 'dark' ? Colors.dark : Colors.light}>
-        <AuthContext>
-          <NavigationContainer
-            linking={LinkingConfiguration}
-            theme={colorScheme === 'dark' ? Colors.dark : Colors.light}>
-            <RootNavigator />
-          </NavigationContainer>
-          <CustomAlert ref={customAlert} />
-        </AuthContext>
-      </ThemeProvider>
+      <ToastGlobalProvider toast={toast}>
+        <ThemeProvider theme={colorScheme === 'dark' ? Colors.dark : Colors.light}>
+          <AuthContext>
+            <NavigationContainer
+              linking={LinkingConfiguration}
+              theme={colorScheme === 'dark' ? Colors.dark : Colors.light}>
+              <RootNavigator />
+            </NavigationContainer>
+            <CustomAlert ref={customAlert} />
+            <ToastGlobal ref={toast} />
+          </AuthContext>
+        </ThemeProvider>
+      </ToastGlobalProvider>
     </CustomAlertProvider>
   )
 }

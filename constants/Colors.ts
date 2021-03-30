@@ -6,11 +6,27 @@ const tintColorDark = '#fff'
 export default {
   light: {
     dark: false,
+    Text: {
+      style: [
+        {
+          color: '#393e46',
+          fontFamily: 'Poppins-Light',
+          fontSize: 16,
+        },
+      ],
+    },
+    Button: {
+      titleStyle: [{ fontFamily: 'Poppins-Light', paddingTop: 5 }],
+    },
     colors: {
       ...DefaultTheme.colors,
-      primary: '#2E86AB',
-      text: '#000',
-      // background: '#fff',
+      primary: '#2866ab',
+      secondary: '#5893d4',
+      terciary: '#ff5b44',
+      text: '#393e46',
+      textTint: '#ffffff',
+      background: '#fafafa',
+      tint: '#ffffff',
       grey0: '#393e42',
       grey1: '#43484d',
       grey2: '#5e6977',

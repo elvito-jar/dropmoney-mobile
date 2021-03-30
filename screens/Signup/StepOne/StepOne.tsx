@@ -25,7 +25,7 @@ const StepOne: React.FC<Props> = ({ navigation }) => {
   const input2 = React.useRef<Input>(undefined!)
   const input3 = React.useRef<Input>(undefined!)
   const [loading, setLoading] = React.useState<boolean>(false)
-  const { theme } = useTheme()
+  const theme = useTheme()
   const { control, handleSubmit, formState, clearErrors, setError } = useForm<InputFields>()
   const state = useSignupState()
 

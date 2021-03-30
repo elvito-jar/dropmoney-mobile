@@ -1,13 +1,13 @@
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { AsYouType, isPossibleNumber, isValidNumber } from 'libphonenumber-js'
 import React from 'react'
 import { Controller, useForm } from 'react-hook-form'
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
-import Toast from 'react-native-easy-toast'
+import { Platform, ScrollView, StyleSheet, Text, ToastAndroid, View } from 'react-native'
 import { Button, Input } from 'react-native-elements'
 import AuthLayout from '../../../components/AuthLayout'
-import { URL } from '../../../constants'
+import { useCustomAlert } from '../../../components/CustomAlert'
+import { showToast, Toast } from '../../../components/Toast'
+import { useAuth } from '../../../hooks/useAuth'
 import useSignupState from '../../../hooks/useSignupState'
 import useTheme from '../../../hooks/useTheme'
 import { SignUpStackParamList } from '../../../types'
@@ -23,13 +23,15 @@ type InputFields = {
 }
 
 const StepFour: React.FC<Props> = ({ navigation }) => {
-  const { theme } = useTheme()
+  const theme = useTheme()
   const { control, handleSubmit, formState, clearErrors, setError } = useForm<InputFields>({ mode: 'onSubmit' })
-  const toast = React.useRef<Toast | null>(undefined!)
+  const toast = React.useRef<Toast>(undefined!)
   const [loading, setLoading] = React.useState<boolean>(false)
   const input2 = React.useRef<Input>(undefined!)
   const state = useSignupState()
   const Formatter = React.useRef(new AsYouType('VE'))
+  const { signup } = useAuth()
+  const cusotmAlert = useCustomAlert()
 
   const normalizeTel = (value: string) => {
     if (value[0] === '0') return ''
@@ -50,9 +52,6 @@ const StepFour: React.FC<Props> = ({ navigation }) => {
   const submit = async (fields: InputFields) => {
     setLoading(true)
     state.current = { ...state.current, ...fields }
-    // const newValidationCode = (Math.floor(Math.random() * 10000) + 10000).toString().substring(1)
-    const newValidationCode = '7447'
-    await AsyncStorage.setItem('@phoneNumber_codeValidation', newValidationCode)
     const [, errValidateEmail] = await makeRequest(`${URL}/auth/check-register?email=${fields.email}`)
     if (errValidateEmail) {
       if (errValidateEmail.name === 'FetchError') {
@@ -61,11 +60,30 @@ const StepFour: React.FC<Props> = ({ navigation }) => {
         return setError('email', { type: 'validate', message: 'Este email ya esta siendo utilizado.' })
       }
     }
-    navigation.navigate('StepFive')
+    const [, err] = await signup(state.current)
+    if (err) {
+      if (err.name === 'FetchError') {
+        showToast(
+          toast.current,
+          'Ups. Parece que ha ocurrido un error en la solicitud de registro. Intenta de nuevo'
+        )
+      } else {
+        Platform.OS === 'ios'
+          ? showToast(toast.current, 'Error de conexion')
+          : ToastAndroid.show('Error de conexion', ToastAndroid.SHORT)
+      }
+      return setLoading(false)
+    }
+    cusotmAlert.show(
+      'Te registraste satisfactoriamente! \n Te hemos enviado un correo de verificación a tu correo electrónico. Por favor verifica tu cuenta para iniciar sesión.',
+      () => {
+        navigation.navigate('Presentation')
+      }
+    )
     setLoading(false)
   }
 
-  const emailRegex = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/g
+  const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
 
   return (
     <AuthLayout>
@@ -151,7 +169,7 @@ const StepFour: React.FC<Props> = ({ navigation }) => {
           <Button
             loading={loading}
             containerStyle={{ paddingHorizontal: 10 }}
-            title='Verificar Celular'
+            title='Registrarse'
             onPress={handleSubmit(submit)}
           />
         </ScrollView>

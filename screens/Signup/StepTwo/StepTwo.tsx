@@ -16,7 +16,7 @@ type Props = {
 const StepTwo: React.FC<Props> = ({ navigation }) => {
   const [date, setDate] = React.useState<Date>(new Date(2000, 0, 1))
   const [show, setShow] = React.useState<boolean>(false)
-  const { theme } = useTheme()
+  const theme = useTheme()
   const state = useSignupState()
   const handleConfirm = (date: Date) => {
     setDate(date)
@@ -49,9 +49,9 @@ const StepTwo: React.FC<Props> = ({ navigation }) => {
           isVisible={show}
           date={date}
           mode='date'
+          display='spinner'
           minimumDate={new Date(1960, 0, 1)}
           maximumDate={moment().subtract(5, 'y').toDate()}
-          display='spinner'
           onConfirm={handleConfirm}
           onCancel={() => setShow(false)}
           headerTextIOS='Fecha de Nacimiento'

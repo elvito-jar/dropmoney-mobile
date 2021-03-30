@@ -30,9 +30,6 @@ const UsernamePass: React.FC<Props> = (props) => {
   const password = React.useRef<Input>(undefined!)
   const state = useSignupState()
   const [showPassword, setShowPassword] = React.useState<boolean>(false)
-  const [, updateState] = React.useState<any>()
-
-  const forceUpdate = React.useCallback(() => updateState({}), [])
 
   const submit = async (fields: InputFields) => {
     setLoading(true)
@@ -102,9 +99,9 @@ const UsernamePass: React.FC<Props> = (props) => {
             rules={{
               required: { value: true, message: 'Este campo es obligatorio' },
               pattern: {
-                value: /^(?=.*[a-zA-Z])(?=.*[\d]).\S{8,}$/g,
+                value: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/,
                 message:
-                  'La contraseña debe contener al menos 8 caracteres, una letra mayuscula, un numero y sin espacios y solo acepta caracteres, caracteres especiales(@$?-._), numeros',
+                  'La contraseña debe tener entre 8-20 caracteres, al menos una letra mayúscula, una minúscula y un dígito.',
               },
             }}
             render={({ onChange, value }) => (

@@ -14,7 +14,7 @@ type Props = {
 }
 
 const ForgotPassword: React.FC<Props> = (props) => {
-  const { colors } = useTheme()
+  const { colors, dark } = useTheme()
   const [loading, setLoading] = React.useState<boolean>(false)
   const [contact, setContact] = React.useState<string>('')
   const toast = React.useRef<Toast>(undefined!)
@@ -63,7 +63,7 @@ const ForgotPassword: React.FC<Props> = (props) => {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: dark ? colors.background : '#fff' }}>
       <ScrollView style={{ flex: 1, paddingHorizontal: 10, paddingTop: 45 }}>
         <Text style={[Styles.title, { color: colors.text }]}>¿Problemas iniciando sesión?</Text>
         <Text style={[Styles.info, { color: colors.grey2 }]}>

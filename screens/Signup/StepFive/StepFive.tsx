@@ -36,7 +36,7 @@ const StepFive: React.FC<Props> = (props) => {
   const [visibleLoader, setVisibleLoader] = React.useState<boolean>(false)
   const [successLoader, setSuccessLoader] = React.useState<boolean>(false)
   const [focus, setFocus] = React.useState<boolean>(false)
-  const { theme } = useTheme()
+  const theme = useTheme()
   const { signup } = useAuth()
   const input = React.useRef<TextInput>(undefined!)
   const [overlay, setOverlay] = React.useState<boolean>(false)

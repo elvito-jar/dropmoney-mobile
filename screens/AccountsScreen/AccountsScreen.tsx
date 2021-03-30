@@ -1,12 +1,11 @@
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import { StackNavigationProp } from '@react-navigation/stack'
 import React from 'react'
-import { SafeAreaView, ScrollView, StyleSheet, View } from 'react-native'
-import { Avatar, Button, Card, ListItem } from 'react-native-elements'
-import { URL } from '../../constants'
+import { ScrollView, StyleSheet, View } from 'react-native'
+import { Button, Text } from 'react-native-elements'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import BalanceCryptoItem from '../../components/BalanceCryptoItem'
 import useTheme from '../../hooks/useTheme'
 import { AccountsParamList } from '../../types'
-import makeRequest from '../../utils/makeRequest'
 
 type Props = {
   navigation: StackNavigationProp<AccountsParamList, 'Accounts'>
@@ -17,6 +16,7 @@ type State = {
     DOLLAR_TODAY: number
     DOLLAR_BCV: number
     RELEVANT_CURRENCIES: { name: string; price: string }[]
+    TOP_CURRENCIES: { name: string; price: string; percent_change_24h: number; logo: string }[]
   }
 }
 
@@ -33,11 +33,8 @@ const initialState: State = {
         name: 'Ethereum',
         price: '1483.09',
       },
-      {
-        name: 'Tether',
-        price: '1.00',
-      },
     ],
+    TOP_CURRENCIES: [],
   },
 }
 
@@ -46,130 +43,156 @@ const AccountsScreen: React.FC<Props> = ({ navigation }) => {
   const { colors } = useTheme()
 
   React.useEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <Button icon={{ name: 'exit-outline', type: 'ionicon', color: colors.primary }} type='clear' />
-      ),
-    })
-    const init = async () => {
-      const [response, err] = await makeRequest(`${URL}/stats/dashboard`)
-      const res = {
-        currencyPrices: response,
-      }
-      let cacheStats = (await AsyncStorage.getItem('@stats_dashboard')) || initialState
-      cacheStats = typeof cacheStats === 'string' ? JSON.parse(cacheStats) : cacheStats
-      if (err) {
-        return setState(cacheStats as State)
-      }
-      await AsyncStorage.setItem('@stats_dashboard', JSON.stringify(res))
-      return setState(res)
-    }
-    init()
+    // const init = async () => {
+    //   const [response, err] = await makeRequest(`${URL}/stats/dashboard`)
+    //   const res = {
+    //     currencyPrices: response,
+    //   }
+    //   let cacheStats = (await AsyncStorage.getItem('@stats_dashboard')) || initialState
+    //   cacheStats = typeof cacheStats === 'string' ? JSON.parse(cacheStats) : cacheStats
+    //   if (err) {
+    //     return setState(cacheStats as State)
+    //   }
+    //   await AsyncStorage.setItem('@stats_dashboard', JSON.stringify(res))
+    //   return setState(res)
+    // }
+    // init()
   }, [])
+
   return (
-    <SafeAreaView>
-      <ScrollView style={[]}>
-        <Card containerStyle={[styles.cardContainer]} wrapperStyle={[{ padding: 0 }]}>
-          <View style={[styles.cardHeader, { backgroundColor: colors.primary }]}>
-            <Card.Title style={[styles.cardText]}>MONEDAS RELEVANTES</Card.Title>
+    <SafeAreaView style={{ backgroundColor: colors.background, flex: 1 }}>
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+        <Text style={[{ alignSelf: 'center', fontSize: 28 }]}>Saldo disponible</Text>
+        <View style={{ alignItems: 'center', marginBottom: 20 }}>
+          <Text style={[{ fontSize: 59, height: 65, marginBottom: 5 }]}>$0.00</Text>
+          <Text style={[{ color: colors.grey3, fontFamily: 'Poppins-Regular' }]}>Total en dolares</Text>
+        </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            paddingHorizontal: 10,
+          }}>
+          <View style={styles.btnContainer}>
+            <Button
+              titleStyle={[styles.btnTitle]}
+              buttonStyle={[{ backgroundColor: colors.secondary }, styles.btn]}
+              icon={{
+                name: 'qrcode',
+                type: 'font-awesome-5',
+                color: colors.textTint,
+                size: 25,
+                iconStyle: { marginRight: 5 },
+              }}
+              title='Recibir'
+            />
+          </View>
+          <View style={styles.btnContainer}>
+            <Button
+              containerStyle={styles.btnShadow}
+              titleStyle={[styles.btnTitle]}
+              buttonStyle={[styles.btn]}
+              icon={{ name: 'paper-plane', type: 'font-awesome', color: colors.textTint, size: 20 }}
+              title='Transferir fondos'
+            />
+          </View>
+        </View>
+        <View style={[styles.balanceWrapper, { backgroundColor: colors.tint }]}>
+          <Text style={[{ fontSize: 18, textAlign: 'center' }]}>Estado de cuentas</Text>
+          <View style={{ marginBottom: 15 }}>
+            <Text style={[{ fontSize: 18 }]}>Fiat</Text>
+            <View style={[styles.fiatContainer, { borderBottomColor: colors.divider }]}>
+              <Text style={[{ flex: 1 }]}>Bolivares Soberanos</Text>
+              <Text style={[styles.fiatValueText]}>0.00</Text>
+            </View>
+            <View style={[styles.fiatContainer, { borderBottomColor: colors.divider }]}>
+              <Text style={[{ flex: 1 }]}>Dolares</Text>
+              <Text style={[styles.fiatValueText]}>0.00</Text>
+            </View>
           </View>
           <View>
-            <ListItem bottomDivider>
-              <Avatar
-                rounded
-                size='medium'
-                icon={{ name: 'dollar', type: 'foundation', color: colors.primary, size: 50 }}
-              />
-              <ListItem.Content>
-                <ListItem.Title>DOLLAR TODAY</ListItem.Title>
-                <ListItem.Subtitle>Valor: {state.currencyPrices.DOLLAR_TODAY} Bsf</ListItem.Subtitle>
-              </ListItem.Content>
-            </ListItem>
-            <ListItem bottomDivider containerStyle={{ borderBottomWidth: 0.8 }}>
-              <Avatar
-                rounded
-                size='medium'
-                icon={{ name: 'bitcoin', type: 'font-awesome-5', color: '#f2a900', size: 50 }}
-              />
-              <ListItem.Content>
-                <ListItem.Title>{state.currencyPrices.RELEVANT_CURRENCIES[0].name.toUpperCase()}</ListItem.Title>
-                <ListItem.Subtitle>
-                  Valor: {state.currencyPrices.RELEVANT_CURRENCIES[0].price} $ (Dolares){' '}
-                </ListItem.Subtitle>
-              </ListItem.Content>
-            </ListItem>
-            <ListItem>
-              <Avatar
-                rounded
-                size='medium'
-                icon={{ name: 'ethereum', type: 'font-awesome-5', color: '#3c3c3d', size: 40 }}
-              />
-              <ListItem.Content>
-                <ListItem.Title>{state.currencyPrices.RELEVANT_CURRENCIES[1].name.toUpperCase()}</ListItem.Title>
-                <ListItem.Subtitle>
-                  Valor: {state.currencyPrices.RELEVANT_CURRENCIES[1].price} $ (Dolares)
-                </ListItem.Subtitle>
-              </ListItem.Content>
-            </ListItem>
+            <Text style={[{ marginBottom: 5, fontSize: 18 }]}>Crypto</Text>
+            <BalanceCryptoItem
+              name='Bitcoin'
+              shortName='BTC'
+              valueOnMerch='56839.12'
+              balance='0.00'
+              variancy={0.007}
+            />
+            <BalanceCryptoItem
+              name='Ethereum'
+              shortName='ETH'
+              valueOnMerch='56839.12'
+              balance='0.00'
+              variancy={-0.007}
+            />
           </View>
-          <Button
-            containerStyle={{ borderRadius: 0 }}
-            buttonStyle={{ borderRadius: 0 }}
-            title='MAS DETALLES...'
-            titleStyle={{ color: 'white' }}
-          />
-        </Card>
-        <Card containerStyle={[styles.cardContainer]} wrapperStyle={[{ padding: 0 }]}>
-          <View style={[styles.cardHeader, { backgroundColor: colors.primary }]}>
-            <Card.Title style={[styles.cardText]}>CUENTAS CRYPTOS</Card.Title>
+          <View style={{ alignItems: 'center', paddingTop: 30 }}>
+            <Text>Estas buscando otra moneda?</Text>
+            <Text style={[{ textAlign: 'center', fontSize: 14, marginTop: 5, paddingHorizontal: 10 }]}>
+              En dropmoney soportamos una gran variedad de monedas. Añade la que prefieras!
+            </Text>
+            <Button
+              containerStyle={{ elevation: 5, backgroundColor: colors.tint, borderRadius: 50, marginVertical: 17 }}
+              buttonStyle={{ borderRadius: 50, height: 36, paddingHorizontal: 15 }}
+              icon={{ name: 'plus', type: 'font-awesome-5', color: colors.textTint, size: 16 }}
+              titleStyle={[{ fontSize: 14 }]}
+              title='Añadir moneda'
+            />
           </View>
-          <View>
-            <ListItem onPress={() => navigation.navigate('AddressdetailsScreen')} bottomDivider>
-              <ListItem.Content>
-                <ListItem.Title>Wallet Label</ListItem.Title>
-                <ListItem.Subtitle>Monto de la wallet adress disponible</ListItem.Subtitle>
-              </ListItem.Content>
-              <ListItem.Chevron size={35} />
-            </ListItem>
-          </View>
-        </Card>
-        <Card containerStyle={[styles.cardContainer]} wrapperStyle={[{ padding: 0 }]}>
-          <View style={[styles.cardHeader, { backgroundColor: colors.primary }]}>
-            <Card.Title style={[styles.cardText]}>TOP COIN MARKET CAP</Card.Title>
-          </View>
-          <View>
-            {state.currencyPrices.RELEVANT_CURRENCIES.map((coin, i) => (
-              <ListItem bottomDivider key={`${i}-${coin}`}>
-                <ListItem.Content>
-                  <ListItem.Title>{coin.name}</ListItem.Title>
-                </ListItem.Content>
-              </ListItem>
-            ))}
-          </View>
-        </Card>
-        <View style={[{ height: 20 }]}></View>
+        </View>
       </ScrollView>
     </SafeAreaView>
   )
 }
 
 const styles = StyleSheet.create({
-  cardContainer: {
+  btnContainer: {
+    flex: 1,
+    paddingHorizontal: 10,
+  },
+  btnShadow: {
     borderRadius: 10,
-    padding: 0,
+    backgroundColor: '#ffffff',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 12,
+    },
+    shadowOpacity: 0.58,
+    shadowRadius: 16.0,
+
+    elevation: 24,
   },
-  cardHeader: {
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
-    padding: 15,
-    margin: 0,
-    marginBottom: 0,
-    justifyContent: 'center',
+  btn: {
+    borderRadius: 10,
   },
-  cardText: {
-    color: 'white',
-    textAlign: 'left',
-    marginBottom: 0,
+  btnTitle: {
+    fontSize: 14,
+    fontFamily: 'Poppins-Regular',
+  },
+  balanceWrapper: {
+    marginTop: 30,
+    padding: 20,
+    flex: 1,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 12,
+    },
+    shadowOpacity: 0.58,
+    shadowRadius: 16.0,
+
+    elevation: 24,
+  },
+  fiatContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderBottomWidth: 0.5,
+  },
+  fiatValueText: {
+    fontSize: 24,
   },
 })
 

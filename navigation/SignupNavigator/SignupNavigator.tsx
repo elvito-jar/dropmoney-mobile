@@ -6,7 +6,6 @@ import StepFour from '../../screens/Signup/StepFour'
 import StepOne from '../../screens/Signup/StepOne'
 import StepThree from '../../screens/Signup/StepThree'
 import StepTwo from '../../screens/Signup/StepTwo'
-import SuccessSignup from '../../screens/Signup/SuccessSignup'
 import UsernamePass from '../../screens/Signup/UsernamePass'
 import { SignUpStackParamList, SignupState } from '../../types'
 
@@ -35,13 +34,13 @@ const SignupNavigator: React.FC = (props) => {
         screenOptions={{
           headerShown: false,
         }}>
+        {/* <Stack.Screen name='SuccessSignup' component={SuccessSignup} /> */}
         <Stack.Screen name='UsernamePass' component={UsernamePass} />
         <Stack.Screen name='StepOne' component={StepOne} />
         <Stack.Screen name='StepTwo' component={StepTwo} />
         <Stack.Screen name='StepThree' component={StepThree} />
         <Stack.Screen name='StepFour' component={StepFour} />
         <Stack.Screen name='StepFive' component={StepFive} />
-        <Stack.Screen name='SuccessSignup' component={SuccessSignup} />
       </Stack.Navigator>
     </SignupNavigatorContext.Provider>
   )

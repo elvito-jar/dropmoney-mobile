@@ -1,3 +1,4 @@
+import { RouteProp } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import React from 'react'
 import { Controller, useForm } from 'react-hook-form'
@@ -12,6 +13,7 @@ import makeRequest from '../../utils/makeRequest'
 
 type Props = {
   navigation: StackNavigationProp<RootStackParamList, 'PasswordRecovery'>
+  route: RouteProp<RootStackParamList, 'PasswordRecovery'>
 }
 
 type FormFields = {
@@ -19,10 +21,10 @@ type FormFields = {
   verifyPassword: string
 }
 
-const token = '267ddab0945986beca07dff9e7905525b2846891'
+const token = '5a3ffbdc46c5c0c1d46a5b542c2917fa40f6d5d7/elvitop'
 
 const PasswordRecoveryScreen: React.FC<Props> = (props) => {
-  const { colors } = useTheme()
+  const { colors, dark } = useTheme()
   const { control, formState, handleSubmit, watch } = useForm<FormFields>()
   const verifyPswd = React.useRef<Einput>(undefined!)
   const [loading, setLoading] = React.useState<boolean>(false)
@@ -31,7 +33,9 @@ const PasswordRecoveryScreen: React.FC<Props> = (props) => {
 
   React.useEffect(() => {
     const init = async () => {
-      const [, err] = await makeRequest(`${URL}/auth/reset/${token}/elvitop`)
+      const [, err] = await makeRequest(
+        `${URL}/auth/reset/${props.route.params.token}/${props.route.params.username}`
+      )
       if (err) {
         if (err.message === 'Invalid Token') {
           Alert.alert('Link expirado', 'Este link para la restauración de tu contraseña ha expirado.', [
@@ -53,7 +57,7 @@ const PasswordRecoveryScreen: React.FC<Props> = (props) => {
       },
       body: JSON.stringify({ password: fields.password }),
     }
-    const [, err] = await makeRequest(`${URL}/auth/recover/${token}`, config)
+    const [, err] = await makeRequest(`${URL}/auth/recover/${props.route.params.token}`, config)
     if (err) {
       if (err.message === 'The password reset token is invalid or has expired.') {
         Alert.alert(
@@ -81,7 +85,7 @@ const PasswordRecoveryScreen: React.FC<Props> = (props) => {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: colors.background }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: dark ? colors.background : '#fff' }}>
       <ScrollView style={{ flex: 1, paddingHorizontal: 10, paddingTop: 40 }}>
         <Text style={[Styles.title, { color: colors.text }]}>Restaura tu contraseña</Text>
         <Controller

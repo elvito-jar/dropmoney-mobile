@@ -39,7 +39,7 @@ type Props = {
 }
 
 const Select: React.FC<Props> = ({ visible, state, onDone, onCancel }) => {
-  const { theme } = useTheme()
+  const theme = useTheme()
   const [venezuelaState, setVenezuelaState] = React.useState<VenezuelaState>(state)
   const onChange = (value: string) => {
     const state = value as VenezuelaState
@@ -60,7 +60,7 @@ const Select: React.FC<Props> = ({ visible, state, onDone, onCancel }) => {
                 <ListItem.Title>{state}</ListItem.Title>
               </ListItem.Content>
               {state === venezuelaState && (
-                <ListItem.Chevron name='check' type='font-awesome' color={theme.colors?.primary} />
+                <ListItem.Chevron name='check' type='feather' color={theme.colors?.primary} />
               )}
             </ListItem>
           ))}

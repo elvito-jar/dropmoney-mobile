@@ -1,7 +1,8 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { Button, Icon, Overlay } from 'react-native-elements'
-import useTheme from '../../hooks/useTheme'
+import Colors from '../../constants/Colors'
+import useColorScheme from '../../hooks/useColorScheme'
 
 type State = {
   isVisible: boolean
@@ -20,7 +21,7 @@ const CustomAlert = React.forwardRef<CustomAlertRef, Props>((props, ref) => {
   const [isVisible, setIsVisible] = React.useState<boolean>(false)
   const [message, setMessage] = React.useState<string>('')
   const [callback, setCallback] = React.useState<Callback>(() => () => {})
-  const { colors } = useTheme()
+  const colorScheme = useColorScheme()
 
   React.useImperativeHandle(ref, () => ({
     show: (message: string, cb: Callback = () => {}) => {
@@ -47,13 +48,17 @@ const CustomAlert = React.forwardRef<CustomAlertRef, Props>((props, ref) => {
       <View>
         <View style={{ padding: 20, paddingBottom: 0 }}>
           <View>
-            <Icon name='check' type='simple-line-icon' color={colors.success} size={60} />
+            <Icon name='check' type='simple-line-icon' color={Colors[colorScheme].colors.success} size={60} />
           </View>
-          <Text style={[Styles.message, { color: colors.grey2 }]}>{message}</Text>
+          <Text style={[Styles.message, { color: Colors[colorScheme].colors.grey2 }]}>{message}</Text>
         </View>
         <View>
           <Button
-            containerStyle={{ borderTopWidth: 1, borderTopColor: colors.divider, paddingVertical: 2 }}
+            containerStyle={{
+              borderTopWidth: 1,
+              borderTopColor: Colors[colorScheme].colors.divider,
+              paddingVertical: 2,
+            }}
             title='OK'
             type='clear'
             onPress={close}

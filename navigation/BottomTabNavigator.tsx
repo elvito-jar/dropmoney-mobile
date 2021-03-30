@@ -5,8 +5,15 @@ import * as React from 'react'
 import { Icon } from 'react-native-elements'
 import Colors from '../constants/Colors'
 import useColorScheme from '../hooks/useColorScheme'
+import useTheme from '../hooks/useTheme'
 import AccountsScreen from '../screens/AccountsScreen'
 import AdressdetailsScreen from '../screens/AdressdetailsScreen'
+import ProfileScreen from '../screens/ProfileScreen'
+import ChangeBirthdayScreen from '../screens/ProfileScreen/ChangeBirthdayScreen'
+import ChangeEmailScreen from '../screens/ProfileScreen/ChangeEmailScreen'
+import ChangePasswordScreen from '../screens/ProfileScreen/ChangePasswordScreen'
+import ChangePhoneNumberScreen from '../screens/ProfileScreen/ChangePhoneNumberScreen'
+import ChangeUsernameScreen from '../screens/ProfileScreen/ChangeUsernameScreen'
 import TabTwoScreen from '../screens/TabTwoScreen'
 import { AccountsParamList, BottomTabParamList, MenuParamList, TransfersParamList } from '../types'
 
@@ -20,16 +27,15 @@ export default function BottomTabNavigator() {
       initialRouteName='Accounts'
       tabBarOptions={{
         activeTintColor: Colors[colorScheme].colors.primary,
-        labelStyle: { paddingBottom: 5 },
-        labelPosition: 'below-icon',
+        labelStyle: { paddingBottom: 3 },
+        tabStyle: { paddingTop: 5 },
+        keyboardHidesTabBar: true,
       }}>
       <BottomTab.Screen
         name='Accounts'
         component={AccountNavigator}
         options={{
-          tabBarIcon: ({ color, size }) => (
-            <Icon name='dollar' type='font-awesome' color={color} size={size - 3} />
-          ),
+          tabBarIcon: ({ color, size }) => <Icon name='wallet' type='font-awesome-5' color={color} size={size} />,
           title: 'Cuentas',
         }}
       />
@@ -47,7 +53,7 @@ export default function BottomTabNavigator() {
         name='Menu'
         component={MenuNavigator}
         options={{
-          tabBarIcon: ({ color }) => <Icon name='menu' type='feather' color={color} />,
+          tabBarIcon: ({ color }) => <Icon name='cogs' type='font-awesome-5' color={color} />,
         }}
       />
     </BottomTab.Navigator>
@@ -67,7 +73,7 @@ const AccountStack = createStackNavigator<AccountsParamList>()
 function AccountNavigator() {
   return (
     <AccountStack.Navigator>
-      <AccountStack.Screen name='Accounts' component={AccountsScreen} options={{ headerTitle: 'Cuentas' }} />
+      <AccountStack.Screen name='Accounts' component={AccountsScreen} options={{ headerShown: false }} />
       <AccountStack.Screen
         name='AddressdetailsScreen'
         component={AdressdetailsScreen}
@@ -90,9 +96,24 @@ function TransferNavigator() {
 const MenuStack = createStackNavigator<MenuParamList>()
 
 function MenuNavigator() {
+  const { colors } = useTheme()
+
   return (
-    <MenuStack.Navigator>
-      <MenuStack.Screen name='Menu' component={TabTwoScreen} options={{ headerShown: false }} />
+    <MenuStack.Navigator screenOptions={{ headerTintColor: colors.primary }}>
+      <MenuStack.Screen name='Menu' component={ProfileScreen} />
+      <MenuStack.Screen name='Email' component={ChangeEmailScreen} />
+      <MenuStack.Screen name='Username' options={{ headerTitle: 'Usuario' }} component={ChangeUsernameScreen} />
+      <MenuStack.Screen
+        name='PhoneNumber'
+        options={{ headerTitle: 'Numero celular' }}
+        component={ChangePhoneNumberScreen}
+      />
+      <MenuStack.Screen
+        name='Birthday'
+        options={{ headerTitle: 'Fecha de nacimiento' }}
+        component={ChangeBirthdayScreen}
+      />
+      <MenuStack.Screen name='Password' options={{ headerTitle: 'Contraseña' }} component={ChangePasswordScreen} />
     </MenuStack.Navigator>
   )
 }
