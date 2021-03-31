@@ -46,8 +46,8 @@ const BalanceCryptoItem: React.FC<Props> = (props) => {
           </Text>
         </ListItem.Subtitle>
       </ListItem.Content>
-      <Text style={[{ fontSize: 24, height: 26 }]}>{props.balance}</Text>
-      <Text style={[{ color: colors.grey3, transform: [{ translateY: 8 }] }]}>{props.shortName}</Text>
+      <Text style={[{ fontSize: 24, height: 26, transform: [{ translateY: 2 }] }]}>{props.balance}</Text>
+      <Text style={[{ color: colors.grey3, transform: [{ translateY: 9 }] }]}>{props.shortName}</Text>
     </ListItem>
   )
 }

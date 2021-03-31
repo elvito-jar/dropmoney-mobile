@@ -27,8 +27,9 @@ export default function BottomTabNavigator() {
       initialRouteName='Accounts'
       tabBarOptions={{
         activeTintColor: Colors[colorScheme].colors.primary,
+        inactiveTintColor: Colors[colorScheme].colors.grey3,
         labelStyle: { paddingBottom: 3 },
-        tabStyle: { paddingTop: 5 },
+        tabStyle: { paddingTop: 5, backgroundColor: 'rgb(255, 255, 255)' },
         keyboardHidesTabBar: true,
       }}>
       <BottomTab.Screen

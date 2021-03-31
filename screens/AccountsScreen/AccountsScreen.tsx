@@ -1,7 +1,8 @@
+import { useFocusEffect } from '@react-navigation/core'
 import { StackNavigationProp } from '@react-navigation/stack'
 import React from 'react'
-import { ScrollView, StyleSheet, View } from 'react-native'
-import { Button, Text } from 'react-native-elements'
+import { BackHandler, Pressable, ScrollView, StyleSheet, View } from 'react-native'
+import { Button, Icon, Overlay, Text } from 'react-native-elements'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import BalanceCryptoItem from '../../components/BalanceCryptoItem'
 import useTheme from '../../hooks/useTheme'
@@ -40,7 +41,26 @@ const initialState: State = {
 
 const AccountsScreen: React.FC<Props> = ({ navigation }) => {
   const [state, setState] = React.useState<State>(() => initialState)
+  const [overlay, setOverlay] = React.useState<boolean>(false)
   const { colors } = useTheme()
+
+  useFocusEffect(
+    React.useCallback(() => {
+      const onBackPress = () => {
+        if (overlay) {
+          setOverlay(false)
+          return true
+        } else {
+          return false
+        }
+      }
+      BackHandler.addEventListener('hardwareBackPress', onBackPress)
+
+      return () => {
+        BackHandler.removeEventListener('hardwareBackPress', onBackPress)
+      }
+    }, [overlay])
+  )
 
   React.useEffect(() => {
     // const init = async () => {
@@ -88,6 +108,7 @@ const AccountsScreen: React.FC<Props> = ({ navigation }) => {
           </View>
           <View style={styles.btnContainer}>
             <Button
+              onPress={() => setOverlay(true)}
               containerStyle={styles.btnShadow}
               titleStyle={[styles.btnTitle]}
               buttonStyle={[styles.btn]}
@@ -96,7 +117,7 @@ const AccountsScreen: React.FC<Props> = ({ navigation }) => {
             />
           </View>
         </View>
-        <View style={[styles.balanceWrapper, { backgroundColor: colors.tint }]}>
+        <View style={[styles.balanceWrapper, { backgroundColor: colors.tint, marginTop: 40 }]}>
           <Text style={[{ fontSize: 18, textAlign: 'center' }]}>Estado de cuentas</Text>
           <View style={{ marginBottom: 15 }}>
             <Text style={[{ fontSize: 18 }]}>Fiat</Text>
@@ -141,6 +162,53 @@ const AccountsScreen: React.FC<Props> = ({ navigation }) => {
           </View>
         </View>
       </ScrollView>
+      <Overlay
+        isVisible={overlay}
+        animationType='fade'
+        onBackdropPress={() => setOverlay(false)}
+        overlayStyle={styles.overlayContainer}>
+        <View style={[styles.overlay, { backgroundColor: colors.tint }]}>
+          <Text style={[{ textAlign: 'center', marginBottom: 10 }]}>
+            De que manera quieres realizar la transferencia?
+          </Text>
+          <View style={{ flexDirection: 'row' }}>
+            <Pressable
+              onPress={() => {
+                setOverlay(false)
+                navigation.navigate('Transaction')
+              }}
+              style={{ alignItems: 'center', padding: 10 }}
+              android_ripple={{ color: colors.grey5 }}>
+              <View
+                style={{
+                  backgroundColor: colors.terciary,
+                  height: 80,
+                  borderRadius: 100,
+                  width: 80,
+                  justifyContent: 'center',
+                  marginBottom: 10,
+                }}>
+                <Icon name='wallet' type='font-awesome-5' color={colors.textTint} size={30} />
+              </View>
+              <Text style={[{ fontSize: 14 }]}>Direccion de Wallet</Text>
+            </Pressable>
+            <Pressable style={{ alignItems: 'center', padding: 10 }} android_ripple={{ color: colors.grey5 }}>
+              <View
+                style={{
+                  backgroundColor: colors.primary,
+                  height: 80,
+                  borderRadius: 100,
+                  width: 80,
+                  justifyContent: 'center',
+                  marginBottom: 10,
+                }}>
+                <Icon name='qrcode' type='font-awesome-5' color={colors.textTint} size={30} />
+              </View>
+              <Text style={[{ fontSize: 14 }]}>Escanear codigo QR</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Overlay>
     </SafeAreaView>
   )
 }
@@ -193,6 +261,19 @@ const styles = StyleSheet.create({
   },
   fiatValueText: {
     fontSize: 24,
+  },
+  overlayContainer: {
+    backgroundColor: '#0000',
+    elevation: 0,
+    position: 'absolute',
+    width: '100%',
+    top: 80,
+    paddingHorizontal: 20,
+  },
+  overlay: {
+    padding: 20,
+    elevation: 10,
+    borderRadius: 15,
   },
 })
 

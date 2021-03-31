@@ -18,9 +18,18 @@ export default {
     Button: {
       titleStyle: [{ fontFamily: 'Poppins-Light', paddingTop: 5 }],
     },
+    Input: {
+      labelStyle: {
+        color: '#5e6977',
+        fontFamily: 'Poppins-Medium',
+        fontSize: 16,
+        fontWeight: '500',
+      },
+    },
     colors: {
       ...DefaultTheme.colors,
       primary: '#2866ab',
+      card: '#2866ab',
       secondary: '#5893d4',
       terciary: '#ff5b44',
       text: '#393e46',
@@ -32,7 +41,7 @@ export default {
       grey2: '#5e6977',
       grey3: '#86939e',
       grey4: '#bdc6cf',
-      grey5: '#e1e8ee',
+      grey5: '#F5F5F5',
       greyOutline: '#bbb',
       success: '#52c41a',
       error: '#ff190c',

@@ -7,11 +7,13 @@ import { CustomAlert, CustomAlertProvider, CustomAlertRef } from '../components/
 import { ToastGlobal, ToastGlobalProvider, ToastGlobalRef } from '../components/ToastGlobal'
 import Colors from '../constants/Colors'
 import { AuthContext, useAuth } from '../hooks/useAuth'
+import useTheme from '../hooks/useTheme'
 import ForgotPassword from '../screens/ForgotPassword'
 import LoginScreen from '../screens/LoginScreen'
 import NotFoundScreen from '../screens/NotFoundScreen'
 import PasswordRecoveryScreen from '../screens/PasswordRecoveryScreen'
 import Presentation from '../screens/Presentation'
+import Transaction from '../screens/Transaction'
 import { RootStackParamList } from '../types'
 import BottomTabNavigator from './BottomTabNavigator'
 import LinkingConfiguration from './LinkingConfiguration'
@@ -62,13 +64,19 @@ const BackImage: React.FC<{ tintColor: string | undefined }> = (props) => (
 
 function RootNavigator() {
   const { state } = useAuth()
+  const { colors } = useTheme()
 
   return (
     <Stack.Navigator
       screenOptions={{
         headerBackImage: BackImage,
-        headerTitle: '',
         headerBackTitleVisible: false,
+        headerTitleAlign: 'center',
+        headerTintColor: colors.textTint,
+        headerTitleStyle: {
+          fontFamily: 'Poppins-Light',
+          transform: [{ translateY: 2 }, { translateX: 5 }],
+        },
         headerStyle: {
           shadowColor: 'transparent',
         },
@@ -88,6 +96,7 @@ function RootNavigator() {
       ) : (
         <>
           <Stack.Screen options={{ headerShown: false }} name='Root' component={BottomTabNavigator} />
+          <Stack.Screen options={{ title: 'Realizar transferencia' }} name='Transaction' component={Transaction} />
         </>
       )}
       <Stack.Screen name='NotFound' component={NotFoundScreen} options={{ title: 'Oops!' }} />

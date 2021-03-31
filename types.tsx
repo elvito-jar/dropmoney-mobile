@@ -4,6 +4,7 @@ export type RootStackParamList = {
   NotFound: undefined
   Login: undefined
   SignUp: undefined
+  Transaction: undefined
   ForgotPassword: undefined
   PasswordRecovery: { token: string; username: string }
 }
@@ -28,6 +29,7 @@ export type BottomTabParamList = {
 export type AccountsParamList = {
   Accounts: undefined
   AddressdetailsScreen: undefined
+  Transaction: undefined
 }
 
 export type TransfersParamList = {
