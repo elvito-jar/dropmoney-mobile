@@ -7,7 +7,6 @@ import Colors from '../constants/Colors'
 import useColorScheme from '../hooks/useColorScheme'
 import useTheme from '../hooks/useTheme'
 import AccountsScreen from '../screens/AccountsScreen'
-import AdressdetailsScreen from '../screens/AdressdetailsScreen'
 import ProfileScreen from '../screens/ProfileScreen'
 import ChangeBirthdayScreen from '../screens/ProfileScreen/ChangeBirthdayScreen'
 import ChangeEmailScreen from '../screens/ProfileScreen/ChangeEmailScreen'
@@ -37,21 +36,30 @@ export default function BottomTabNavigator() {
         component={AccountNavigator}
         options={{
           tabBarIcon: ({ color, size }) => <Icon name='wallet' type='font-awesome-5' color={color} size={size} />,
-          title: 'Cuentas',
+          title: 'Billetera',
         }}
       />
       <BottomTab.Screen
-        name='Transfers'
+        name='Banca'
         component={TransferNavigator}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Icon name='money-check-alt' type='font-awesome-5' color={color} size={size} />
+            <Icon name='credit-card-alt' type='font-awesome' color={color} size={size} />
           ),
-          title: 'Transferencias',
         }}
       />
       <BottomTab.Screen
-        name='Menu'
+        name='Frequent'
+        component={TransferNavigator}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Icon name='user-friends' type='font-awesome-5' color={color} size={size} />
+          ),
+          title: 'Pagos frecuentes',
+        }}
+      />
+      <BottomTab.Screen
+        name='Configuración'
         component={MenuNavigator}
         options={{
           tabBarIcon: ({ color }) => <Icon name='cogs' type='font-awesome-5' color={color} />,
@@ -75,11 +83,6 @@ function AccountNavigator() {
   return (
     <AccountStack.Navigator>
       <AccountStack.Screen name='Accounts' component={AccountsScreen} options={{ headerShown: false }} />
-      <AccountStack.Screen
-        name='AddressdetailsScreen'
-        component={AdressdetailsScreen}
-        options={{ headerTitle: 'Detalles de cuenta' }}
-      />
     </AccountStack.Navigator>
   )
 }

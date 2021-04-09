@@ -1,6 +1,6 @@
 import React from 'react'
 import { StyleSheet } from 'react-native'
-import { Avatar, ListItem, Text } from 'react-native-elements'
+import { Avatar, ListItem, ListItemProps, Text } from 'react-native-elements'
 import useTheme from '../../hooks/useTheme'
 
 type Props = {
@@ -24,30 +24,31 @@ function getIcon(name: string) {
   }
 }
 
-const BalanceCryptoItem: React.FC<Props> = (props) => {
+const BalanceCryptoItem: React.FC<Props & ListItemProps> = ({
+  name,
+  shortName,
+  balance,
+  valueOnMerch,
+  variancy,
+  ...props
+}) => {
   const { colors } = useTheme()
 
   return (
-    <ListItem containerStyle={{ padding: 0, paddingBottom: 10, paddingTop: 10 }} pad={2} bottomDivider>
-      <Avatar
-        rounded
-        size='small'
-        title='M'
-        source={getIcon(props.shortName)}
-        containerStyle={{ marginRight: 8 }}
-      />
+    <ListItem {...props} containerStyle={{ padding: 0, paddingBottom: 10, paddingTop: 10 }} pad={2} bottomDivider>
+      <Avatar rounded size='small' title='M' source={getIcon(shortName)} containerStyle={{ marginRight: 8 }} />
       <ListItem.Content>
-        <ListItem.Title style={{ fontFamily: 'Poppins-Light', height: 19 }}>{props.name}</ListItem.Title>
+        <ListItem.Title style={{ fontFamily: 'Poppins-Light', height: 19 }}>{name}</ListItem.Title>
         <ListItem.Subtitle>
-          <Text style={[{ fontSize: 14, color: colors.grey3 }]}>Val. {props.valueOnMerch} </Text>
-          <Text style={[{ fontSize: 14, color: props.variancy > 0 ? '#9ADA96' : '#F17B7B' }]}>
-            {props.variancy > 0 ? '+' : ''}
-            {props.variancy}
+          <Text style={[{ fontSize: 14, color: colors.grey3 }]}>Val. {valueOnMerch} </Text>
+          <Text style={[{ fontSize: 14, color: variancy > 0 ? '#9ADA96' : '#F17B7B' }]}>
+            {variancy > 0 ? '+' : ''}
+            {variancy}
           </Text>
         </ListItem.Subtitle>
       </ListItem.Content>
-      <Text style={[{ fontSize: 24, height: 26, transform: [{ translateY: 2 }] }]}>{props.balance}</Text>
-      <Text style={[{ color: colors.grey3, transform: [{ translateY: 9 }] }]}>{props.shortName}</Text>
+      <Text style={[{ fontSize: 24, height: 26, transform: [{ translateY: 2 }] }]}>{balance}</Text>
+      <Text style={[{ color: colors.grey3, transform: [{ translateY: 9 }] }]}>{shortName}</Text>
     </ListItem>
   )
 }

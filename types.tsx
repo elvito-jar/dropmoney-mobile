@@ -7,6 +7,8 @@ export type RootStackParamList = {
   Transaction: undefined
   ForgotPassword: undefined
   PasswordRecovery: { token: string; username: string }
+  AddressDetailsScreen: { asset: string; short: string }
+  AssetTotalMovements: { asset: string; short: string }
 }
 
 export type SignUpStackParamList = {
@@ -22,13 +24,14 @@ export type SignUpStackParamList = {
 
 export type BottomTabParamList = {
   Accounts: undefined
-  Menu: undefined
-  Transfers: undefined
+  Configuración: undefined
+  Banca: undefined
+  Frequent: undefined
 }
 
 export type AccountsParamList = {
   Accounts: undefined
-  AddressdetailsScreen: undefined
+  AddressDetailsScreen: { asset: string; short: string }
   Transaction: undefined
 }
 
@@ -83,6 +86,7 @@ export type ColorPallete = {
     success?: string
     error?: string
     divider?: string
+    card?: string
   }
 }
 
@@ -111,3 +115,12 @@ export type VenezuelaState =
   | 'Yaracuy'
   | 'La Guaira'
   | 'Zulia'
+
+export type CoinShortName = '$' | 'BsS' | 'ETH' | 'BTC' | 'BNB' | 'BCH' | 'BSV'
+export type FiatName = 'Dolares' | 'Bolivares Soberanos'
+export type BalanceCoinName = 'Ethereum' | 'Bitcoin' | 'Binance Coin' | 'Bitcoin Cash' | 'Bitcoin SV'
+
+export type CoinItem = {
+  name: FiatName | BalanceCoinName
+  shortName: CoinShortName
+}

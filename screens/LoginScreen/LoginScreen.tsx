@@ -132,7 +132,7 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
         />
       </View>
       <Toast ref={toast} style={{ backgroundColor: '#ef5350' }} positionValue={100} />
-      <KeyboardSpacer />
+      <KeyboardSpacer topSpacing={62} />
     </View>
   )
 }

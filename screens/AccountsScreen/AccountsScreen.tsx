@@ -80,7 +80,7 @@ const AccountsScreen: React.FC<Props> = ({ navigation }) => {
   }, [])
 
   return (
-    <SafeAreaView style={{ backgroundColor: colors.background, flex: 1 }}>
+    <SafeAreaView style={{ flex: 1 }}>
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
         <Text style={[{ alignSelf: 'center', fontSize: 28 }]}>Saldo disponible</Text>
         <View style={{ alignItems: 'center', marginBottom: 20 }}>
@@ -133,6 +133,7 @@ const AccountsScreen: React.FC<Props> = ({ navigation }) => {
           <View>
             <Text style={[{ marginBottom: 5, fontSize: 18 }]}>Crypto</Text>
             <BalanceCryptoItem
+              onPress={() => navigation.navigate('AddressDetailsScreen', { asset: 'Bitcoin', short: 'BTC' })}
               name='Bitcoin'
               shortName='BTC'
               valueOnMerch='56839.12'
@@ -140,6 +141,7 @@ const AccountsScreen: React.FC<Props> = ({ navigation }) => {
               variancy={0.007}
             />
             <BalanceCryptoItem
+              onPress={() => navigation.navigate('AddressDetailsScreen', { asset: 'Ethereum', short: 'ETH' })}
               name='Ethereum'
               shortName='ETH'
               valueOnMerch='56839.12'
