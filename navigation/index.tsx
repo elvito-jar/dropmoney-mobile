@@ -8,6 +8,8 @@ import { ToastGlobal, ToastGlobalProvider, ToastGlobalRef } from '../components/
 import Colors from '../constants/Colors'
 import { AuthContext, useAuth } from '../hooks/useAuth'
 import useTheme from '../hooks/useTheme'
+import AdressdetailsScreen from '../screens/AdressdetailsScreen'
+import AssetTotalMovementsScreen from '../screens/AssetTotalMovementsScreen'
 import ForgotPassword from '../screens/ForgotPassword'
 import LoginScreen from '../screens/LoginScreen'
 import NotFoundScreen from '../screens/NotFoundScreen'
@@ -97,6 +99,8 @@ function RootNavigator() {
         <>
           <Stack.Screen options={{ headerShown: false }} name='Root' component={BottomTabNavigator} />
           <Stack.Screen options={{ title: 'Realizar transferencia' }} name='Transaction' component={Transaction} />
+          <Stack.Screen name='AddressDetailsScreen' component={AdressdetailsScreen} />
+          <Stack.Screen name='AssetTotalMovements' component={AssetTotalMovementsScreen} />
         </>
       )}
       <Stack.Screen name='NotFound' component={NotFoundScreen} options={{ title: 'Oops!' }} />
